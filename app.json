@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "autoCal-app",
+    "slug": "autoCal-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "autoCal-app"
+}
