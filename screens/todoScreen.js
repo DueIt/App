@@ -24,7 +24,7 @@ export default function Todo({ navigation }) {
           title: 'English Homework',
           time: 150,
           due: '2022-02-15T24:00:00.000Z',
-          id: '1',
+          id: '2',
         },
       ],
     };
