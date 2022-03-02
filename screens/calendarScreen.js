@@ -76,7 +76,7 @@ export default function Calendar({ navigate }) {
     const hours = parseInt(eventTime);
     let eventTimeString = `${mins} ${mins === 1 ? 'min' : 'mins'}`;
     if (eventTime >= 1) {
-      eventTimeString = `${hours} ${hours === 1 ? 'hour' : 'hours'} ${mins} ${mins == 1 ? 'min' : 'mins'}`;
+      eventTimeString = `${hours} ${hours === 1 ? 'hour' : 'hours'} ${mins} ${mins === 1 ? 'min' : 'mins'}`;
     }
     const eventHeight = hourSize * eventTime;
 
