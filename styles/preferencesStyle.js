@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: '#F5F5F5',
+    marginBottom: 30,
   },
 
   calendarItem: {
@@ -43,6 +44,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
+  priorityItem: {
+    borderRadius: 20,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 18,
+    marginBottom: 20,
+  },
+
   doneButton: {
     backgroundColor: '#39A4FF',
     flex: 1,
@@ -68,6 +78,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    paddingLeft: 20,
     marginBottom: 30,
     marginTop: 20,
     fontSize: 24,
