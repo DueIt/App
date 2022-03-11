@@ -49,30 +49,6 @@ export default function Preferences({ navigation }) {
       });
   }, [hasCalPermission]);
 
-  useEffect(() => {
-    const testPriorities = {
-      items: [
-        {
-          label: 'Due Date',
-          value: 'duedate',
-        },
-        {
-          label: 'Length',
-          value: 'length',
-        },
-        {
-          label: 'Importance',
-          value: 'importance',
-        },
-        {
-          label: 'Difficulty',
-          value: 'difficulty',
-        },
-      ],
-    };
-    setPriorities(testPriorities.items);
-  }, []);
-
   function submitCalendarChange() {
     // const ids = ['BCB1FE69-C5AA-4434-A531-8717FEAD5E78'];
     const now = new Date();
@@ -106,15 +82,9 @@ export default function Preferences({ navigation }) {
   }
 
 
-  function selectPriority(id) {
-    const newSet = new Set();
-    if (newSet.has(id)) {
-      newSet.delete(id);
-      setSelectedPriorities(newSet);
-    } else {
-      newSet.add(id);
-      setSelectedPriorities(newSet);
-    }
+  function selectPriority(value) {
+    const newValue = value;
+    setSelectedPriority(newValue);
   }
 
   return (
@@ -123,54 +93,18 @@ export default function Preferences({ navigation }) {
         <View style={styles.container}>
           <Text style={styles.title}>Settings: </Text>
         {/* Dropdown */}
-
-        <View style={styles.container}>
-          <Picker
-            selectedValue={selectedValue}
-            style={{ height: 50, width: 150 }}
-            onValueChange={(itemValue, itemIndex) => setSelectedPriority(itemValue)}
-          >
-            {priorities.map( (s, i) => {
-            return <Picker.Item key={i} value={s} label={s} />
-            })};
-          </Picker>
-        </View>
-
-{/* Priorities */}
           <View style={styles.calendarItemContainer}>
           <Text style={styles.title}>Task Priority: </Text>
-            {priorities.map((priority, i, row) => {
-              if (i + 1 === row.length) {
-                return (
-                  <TouchableOpacity
-                    style={[styles.calendarItem]}
-                    onPress={() => selectPriority(priority.id)}
-                    key={priority.id}
-                  >
-                    <View style={[styles.calendarItemInner, styles.calendarItemLast]}>
-                      <Text style={styles.calendarItemText}>{priority.title}</Text>
-                      { selectedPriorities.has(priority.id)
-                        ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
-                        : null}
-                    </View>
-                  </TouchableOpacity>
-                );
-              }
-              return (
-                <TouchableOpacity
-                  style={[styles.calendarItem]}
-                  onPress={() => selectPriority(priority.id)}
-                  key={priority.id}
-                >
-                  <View style={styles.calendarItemInner}>
-                    <Text style={styles.calendarItemText}>{priority.title}</Text>
-                    { selectedPriorities.has(priority.id)
-                      ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
-                      : null}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+          <Picker
+              selectedValue={selectedPriority}
+              style={{ height: 180, width: 150, marginLeft: 100}}
+              onValueChange={(itemValue, itemIndex) => selectPriority(itemValue)}
+            >
+              <Picker.Item label = "Due Date" value = "duedate" />     
+              <Picker.Item label = "Difficulty" value = "difficulty" /> 
+              <Picker.Item label = "Length" value = "length" /> 
+              <Picker.Item label = "Importance" value = "importance" /> 
+            </Picker>
           </View>
 {/* Calendars from iCal */}
           <View style={styles.calendarItemContainer}>
@@ -213,7 +147,7 @@ export default function Preferences({ navigation }) {
             style={[styles.shadow, styles.doneButtonWrapper]}
           >
             <Pressable
-              style={({ pressed }) => [styles.doneButton, pressed ? styles.pressed : null, selectedCalendars.size == 0 ? styles.disabled : null]}
+              style={({ pressed }) => [styles.doneButton, pressed ? styles.pressed : null, (selectedCalendars.size == 0 || selectPriority == null) ? styles.disabled : null]}
               onPress={submitCalendarChange}
               disabled={selectedCalendars.size == 0}
             >
