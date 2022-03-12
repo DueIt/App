@@ -10,6 +10,16 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
 
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-between",
+    //padding: 16,
+    marginHorizontal: 30,
+    marginTop: 10,
+
+  },
+
   pressed: {
     opacity: 0.8,
   },
@@ -69,6 +79,9 @@ const styles = StyleSheet.create({
   checkImage: {
     marginRight: 15,
     color: '#39A4FF',
+  },
+  settings: {
+    marginRight: 15,
   },
   uncheckedCircle: {
     width: 23,

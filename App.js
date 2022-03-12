@@ -79,15 +79,15 @@ function App() {
           let iconName;
 
           if (route.name === 'CalendarNav') {
-            return <FontAwesomeIcon icon={faCalendarAlt} size={20} />;
+            return <FontAwesomeIcon icon={faCalendarAlt} size={24} />;
           } if (route.name === 'TodoNav') {
-            return <FontAwesomeIcon icon={faList} size={20} />;
+            return <FontAwesomeIcon icon={faList} size={24} />;
           } 
           if (route.name === 'SettingsNav') {
-            return <FontAwesomeIcon icon={faGear} size={20} />;
+            return <FontAwesomeIcon icon={faGear} size={24} />;
           }
           if (route.name === 'AddTask') {
-            return <FontAwesomeIcon icon={faPlus} size={35} />;
+            return <FontAwesomeIcon icon={faPlus} size={30} />;
           }
         },
         tabBarActiveTintColor: '#39A4FF',
@@ -102,6 +102,7 @@ function App() {
         <Tab.Screen name="AddTask" component={AddTask} />
         <Tab.Screen name="CalendarNav" component={CalendarNav} />
         <Tab.Screen name="SettingsNav" component={SettingsNav} />
+
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: "flex-start",
-    padding: 18,
     marginBottom: 20,
   },
     row: {
@@ -149,7 +148,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderBottomColor: '#A1A1A1',
     borderBottomWidth: 1,
-    width: 100,
   },
 
   pressed: {
@@ -194,7 +192,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: "flex-start",
-
     padding: 18,
     marginBottom: 20,
   },
@@ -218,7 +215,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 18,
+    //padding: 18,
+    paddingTop: 15,
     //marginBottom: 20,
     marginTop: 30,
   },

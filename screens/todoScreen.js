@@ -4,12 +4,21 @@ import {
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck, faGear, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { styles } from '../styles/todoStyle';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Settings from './preferencesScreen'; 
+
 
 export default function Todo({ navigation }) {
+  const SettingsStack = createStackNavigator();
   const [todos, setTodos] = useState([]);
   const [selectedTodos, setSelectedTodos] = useState(new Set());
+  const changeAccomplishSetting = () => setAccomplished(previousState => !previousState);
+
+  const [accomplished, setAccomplished] = useState(false);
+ 
 
   useEffect(() => {
     const testTodos = {
@@ -56,10 +65,25 @@ export default function Todo({ navigation }) {
     }
   }
 
+  function settingsNavigate() {
+    navigation.navigate("Settings");
+  }
+
   return (
     <SafeAreaView style={styles.scroll}>
       <ScrollView style={styles.scroll}>
-        <Text style={styles.title}>To-Do's</Text>
+      <View style={styles.row}>
+      <Pressable onPress={() => changeAccomplishSetting()}>
+
+      <FontAwesomeIcon icon={faCheckSquare} style={accomplished == false ? styles.settings : styles.checkImage} size={24} />
+      </Pressable>
+
+        <Text style={styles.title}>{accomplished == false ? "To-Do's" : "Completed"}</Text>
+        <Pressable onPress={settingsNavigate}>
+          <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
+        </Pressable>
+
+        </View>
         <View style={styles.container}>
           {todos.map((todo) => (
             <DropShadow style={[styles.shadow, styles.todoItem]}>
