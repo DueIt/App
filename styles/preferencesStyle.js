@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+
+  text: {
+    fontSize: 14,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+
   scroll: {
     overflow: 'visible',
   },
@@ -21,6 +28,21 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 20,
   },
+  card: {
+    flexDirection: 'column',
+  marginTop: 10,
+  marginBottom: 0,
+},
+
+newItemCard: {
+  borderRadius: 20,
+  backgroundColor: 'white',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: 18,
+  //marginBottom: 20,
+  marginTop: 30,
+},
 
   calendarItemInner: {
     paddingVertical: 17,
@@ -35,7 +57,10 @@ const styles = StyleSheet.create({
   },
 
   container: {
+    width: '85%',
+
     alignItems: 'center',
+    marginHorizontal: 25,
   },
 
   doneButtonWrapper: {
@@ -95,6 +120,22 @@ const styles = StyleSheet.create({
 
   disabled: {
     opacity: 0.5,
+  },
+
+  layerContainer: {
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    //justifyContent: "space-between",
+    padding: 18,
+    marginBottom: 20,
+    width: '100%',
+
+    position: 'relative',
+    color: 'white',
+    height:100,
+    overflow: "hidden",
   },
 });
 

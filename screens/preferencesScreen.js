@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Text, View, Alert, SafeAreaView, TouchableOpacity, ScrollView, Pressable, Picker
+  Text, View, Alert, SafeAreaView, TouchableOpacity, ScrollView, Pressable, Picker,
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
-import { components } from "react-select";
-import RNCalendarEvents from "react-native-calendar-events";
+//import { components } from 'react-select';
+import RNCalendarEvents from 'react-native-calendar-events';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+//import { Dropdown } from 'react-native-material-dropdown';
 import { styles } from '../styles/preferencesStyle';
-import { Dropdown } from 'react-native-material-dropdown';
-
 
 export default function Preferences({ navigation }) {
   const [hasCalPermission, setHasCalPermission] = useState(false);
@@ -81,7 +80,6 @@ export default function Preferences({ navigation }) {
     }
   }
 
-
   function selectPriority(value) {
     const newValue = value;
     setSelectedPriority(newValue);
@@ -90,25 +88,28 @@ export default function Preferences({ navigation }) {
   return (
     <SafeAreaView style={styles.scroll}>
       <ScrollView style={styles.scroll}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Settings: </Text>
-        {/* Dropdown */}
-          <View style={styles.calendarItemContainer}>
-          <Text style={styles.title}>Task Priority: </Text>
-          <Picker
+        <View style={styles.card}>
+        <DropShadow style={[styles.shadow, styles.newItemCard]}>
+          <Text style={styles.title}>Preferences: </Text>
+          <View style={styles.container}>
+          <DropShadow style={[styles.shadow, styles.layerContainer]}>
+            <Text style={styles.text}>Prioritize by: </Text>
+            <Picker
               selectedValue={selectedPriority}
-              style={{ height: 180, width: 150, marginLeft: 100}}
+              style={{ width: 150, marginLeft: 30 }}
               onValueChange={(itemValue, itemIndex) => selectPriority(itemValue)}
             >
-              <Picker.Item label = "Due Date" value = "duedate" />     
-              <Picker.Item label = "Difficulty" value = "difficulty" /> 
-              <Picker.Item label = "Length" value = "length" /> 
-              <Picker.Item label = "Importance" value = "importance" /> 
+              <Picker.Item label="Due Date" value="duedate" />
+              <Picker.Item label="Difficulty" value="difficulty" />
+              <Picker.Item label="Length" value="length" />
+              <Picker.Item label="Importance" value="importance" />
             </Picker>
+            </DropShadow>
           </View>
-{/* Calendars from iCal */}
+          
+          {/* Calendars from iCal */}
           <View style={styles.calendarItemContainer}>
-          <Text style={styles.title}>Choose your Calendar: </Text>
+            <Text style={styles.title}>Choose your Calendars: </Text>
             {availableCalendars.map((data, i, row) => {
               if (i + 1 === row.length) {
                 return (
@@ -153,6 +154,7 @@ export default function Preferences({ navigation }) {
             >
               <Text style={styles.doneButtonText}>Done</Text>
             </Pressable>
+          </DropShadow>
           </DropShadow>
         </View>
       </ScrollView>

@@ -3,12 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalendarAlt, faList, faGear} from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faList, faGear, faPlus} from '@fortawesome/free-solid-svg-icons';
 
-import Preferences from './screens/preferencesScreen';
+//import Preferences from '../screens/preferencesScreen';
 import Calendar from './screens/calendarScreen';
 import Todo from './screens/todoScreen';
 import Settings from './screens/preferencesScreen'; 
+import AddTask from './screens/addTask';
 
 const Tab = createBottomTabNavigator();
 const CalendarStack = createStackNavigator();
@@ -56,6 +57,20 @@ function SettingsNav() {
   );
 }
 
+function AddTaskNav() {
+  return (
+    <AddTaskStack.Navigator screenOptions={{
+      headerShown: false,
+      animationEnabled: false,
+      cardStyle: { backgroundColor: 'white' },
+    }}
+    >
+      <AddTaskStack.Screen name="AddTask" component={AddTask} />
+      <AddTaskStack.Screen name="Settings" component={Settings} />
+    </AddTaskStack.Navigator>
+  );
+}
+
 function App() {
   return (
     <NavigationContainer>
@@ -71,6 +86,9 @@ function App() {
           if (route.name === 'SettingsNav') {
             return <FontAwesomeIcon icon={faGear} size={20} />;
           }
+          if (route.name === 'AddTask') {
+            return <FontAwesomeIcon icon={faPlus} size={35} />;
+          }
         },
         tabBarActiveTintColor: '#39A4FF',
         tabBarInactiveTintColor: 'gray',
@@ -81,6 +99,7 @@ function App() {
       })}
       >
         <Tab.Screen name="TodoNav" component={TodoNav} />
+        <Tab.Screen name="AddTask" component={AddTask} />
         <Tab.Screen name="CalendarNav" component={CalendarNav} />
         <Tab.Screen name="SettingsNav" component={SettingsNav} />
       </Tab.Navigator>
