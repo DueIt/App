@@ -13,6 +13,36 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  pressedButton: {
+    backgroundColor: '#39A4FF',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 15,
+  },
+
+  notPressedButton: {
+    //backgroundColor: 'white',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 15,
+  },
+
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-between",
+    marginHorizontal: 30,
+    marginTop: 10,
+  },
+  daysOfWeek: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-between",
+    marginHorizontal: 30,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+
   container: {
     paddingHorizontal: 15,
     position: 'relative',

@@ -6,13 +6,10 @@ import DropShadow from 'react-native-drop-shadow';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck, faGear, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { styles } from '../styles/todoStyle';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Settings from './preferencesScreen'; 
 
 
 export default function Todo({ navigation }) {
-  const SettingsStack = createStackNavigator();
   const [todos, setTodos] = useState([]);
   const [selectedTodos, setSelectedTodos] = useState(new Set());
   const changeAccomplishSetting = () => setAccomplished(previousState => !previousState);
