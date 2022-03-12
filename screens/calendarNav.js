@@ -9,16 +9,16 @@ const Stack = createStackNavigator();
 
 export default function calendarNav() {
   return (
-  <NavigationContainer>
-    <Stack.Navigator  screenOptions={{
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
         headerShown: false,
         animationEnabled: false,
-        cardStyle: {backgroundColor: 'white'}
+        cardStyle: { backgroundColor: 'white' },
       }}
       >
-      <Stack.Screen name="Calendar" component={Calendar}/>
-      <Stack.Screen name="Preferences" component={Preferences}/>
-    </Stack.Navigator>
-  </NavigationContainer>
+        <Stack.Screen name="Calendar" component={Calendar} />
+        <Stack.Screen name="Preferences" component={Preferences} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
+}

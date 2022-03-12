@@ -59,7 +59,7 @@ export default function Todo({ navigation }) {
   return (
     <SafeAreaView style={styles.scroll}>
       <ScrollView style={styles.scroll}>
-        <Text style={styles.title}>Calendar</Text>
+        <Text style={styles.title}>To-Do's</Text>
         <View style={styles.container}>
           {todos.map((todo) => (
             <DropShadow style={[styles.shadow, styles.todoItem]}>
