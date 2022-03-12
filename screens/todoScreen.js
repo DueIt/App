@@ -7,9 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { styles } from '../styles/todoStyle';
 
+import { AuthContext } from '../App';
+
 export default function Todo({ navigation }) {
   const [todos, setTodos] = useState([]);
   const [selectedTodos, setSelectedTodos] = useState(new Set());
+
+  const { signOut } = React.useContext(AuthContext);
 
   useEffect(() => {
     const testTodos = {
@@ -79,6 +83,9 @@ export default function Todo({ navigation }) {
             </DropShadow>
           ))}
         </View>
+        <Pressable onPress={() => signOut()}>
+          <Text>Logout</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
