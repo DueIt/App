@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import {
   Text, View, TextInput, SafeAreaView, ScrollView, Pressable,
 } from 'react-native';
+import { Component } from 'react';
 import DropShadow from 'react-native-drop-shadow';
 import { BlurView } from '@react-native-community/blur';
 import { styles } from '../styles/calendarStyle';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { GestureDetector, Swipeable } from 'react-native-gesture-handler';
 
 export default function Calendar({ navigation }) {
   const [hour, setHour] = useState(14/* new Date().getHours() */);
@@ -22,6 +24,104 @@ export default function Calendar({ navigation }) {
   const hourSize = 100;
   const daysOfWeek = ["S", "M", "T", "W", "R", "F", "Sa"];
   const [chosenDay, setChosenDay] = useState(daysOfWeek[curDate.getDay()]);
+  const LeftAction = () => {
+    return CalendarDisplay()
+  }
+
+  function CalendarDisplay() {
+    return (<> 
+    {/* {selectedIndex !== -1
+      && (
+        <BlurView
+          style={[styles.blur]}
+          blurType="light"
+          blurAmount={3}
+        />
+      )} */}
+    <View style={styles.container}>
+      {times.map((time) => (
+        <View style={styles.timeSlot}>
+          <Text style={styles.timeText}>{time}</Text>
+          <View style={styles.timeLine} />
+        </View>
+      ))}
+      {events.map((event) => {
+        const eventDisplay = calcEventDisplay(event);
+        return (
+          <View
+            style={[{ height: eventDisplay.eventHeight, top: eventDisplay.startOffset },
+            styles.eventItem]}
+          >
+            <Text style={styles.eventTitle}>{event.title}</Text>
+            <Text style={styles.eventSubtitle}>{eventDisplay.eventTimeString}</Text>
+          </View>
+        );
+      })}
+      {selectedIndex !== -1
+        && (
+          <Pressable
+            style={[styles.blur]}
+            onPress={() => closeTodo()}
+          >
+            <BlurView
+              style={[styles.blur]}
+              blurType="light"
+              blurAmount={3}
+            />
+          </Pressable>
+        )}
+      {todos.map((todo, i) => {
+        const todoDisplay = calcEventDisplay(todo);
+        return (
+          <Pressable
+            style={[{ height: todoDisplay.eventHeight, top: todoDisplay.startOffset },
+            styles.todoItem]}
+            onPress={() => todoPress(i, todoDisplay.startOffset)}
+          >
+            <Text style={styles.todoTitle}>{todo.title}</Text>
+            <Text style={styles.todoSubtitle}>{todoDisplay.eventTimeString}</Text>
+          </Pressable>
+        );
+      })}
+      {selectedIndex !== -1
+        && (
+          <DropShadow style={[styles.shadow, styles.todoPopup, calcStyle()]}>
+            <View style={styles.popupButtonWrapper}>
+              <Pressable
+                style={({ pressed }) => [styles.popupButton,
+                styles.completeButton,
+                pressed ? styles.pressed : null]}
+                onPress={() => null}
+              >
+                <Text style={[styles.popupButtonText]}>Complete</Text>
+              </Pressable>
+              <Pressable
+                style={({ pressed }) => [styles.popupButton,
+                styles.delayButton,
+                pressed ? styles.pressed : null]}
+                onPress={() => null}
+              >
+                <Text style={[styles.popupButtonText]}>Do later</Text>
+              </Pressable>
+            </View>
+            <View style={styles.popupTimeWrapper}>
+              <Text style={styles.popupTimeLabel}>Time done</Text>
+              <View style={styles.timeInputWrapper}>
+                <TextInput
+                  style={styles.timeInput}
+                  onChangeText={(text) => setTimeDone(text.replace(/[^0-9]/g, ''))}
+                  value={timeDone}
+                  placeholder={timeDone}
+                  keyboardType="numeric"
+                />
+              </View>
+              <Text style={styles.timeMin}>min</Text>
+            </View>
+          </DropShadow>
+        )}
+    </View></>)
+  }
+
 
 
 
@@ -130,123 +230,40 @@ export default function Calendar({ navigation }) {
 
   return (
     <SafeAreaView tyle={{ overflow: 'visible' }}>
-      <ScrollView
-        style={{ overflow: 'visible' }}
-        ref={(curRef) => {
-          setRef(curRef);
-        }}
-        scrollEnabled={selectedIndex === -1}
-      >
-        <View style={styles.row}>
-        
-            <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} color= 'white' />
-          
-          <Text style={styles.title}>{"Calendar"}</Text>
-          <Pressable onPress={settingsNavigate}>
-            <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
-          </Pressable>
-        </View>
-        <View style={styles.daysOfWeek}>
-          {daysOfWeek.map((dayOfWeek) => (
-            <Pressable style={chosenDay == dayOfWeek ? styles.pressedButton : styles.notPressedButton}
-              onPress={() => setChosenDay(dayOfWeek)} >
-              <Text>{dayOfWeek == "Sa" ? "S" : dayOfWeek}</Text>
+        <ScrollView
+          style={{ overflow: 'visible' }}
+          ref={(curRef) => {
+            setRef(curRef);
+          }}
+          scrollEnabled={selectedIndex === -1}
+        >
+          <View style={styles.row}>
+
+            <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} color='white' />
+
+            <Text style={styles.title}>{"Calendar"}</Text>
+            <Pressable onPress={settingsNavigate}>
+              <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
             </Pressable>
+          </View>
+          <GestureDetector
+        onSwipeleft={() => setChosenDay('S')} onDragleft={() => setChosenDay('S')}>
+          <View collapsable={false}>
+          <View style={styles.daysOfWeek}>
+            {daysOfWeek.map((dayOfWeek) => (
+              <Pressable style={chosenDay == dayOfWeek ? styles.pressedButton : styles.notPressedButton}
+                onPress={() => setChosenDay(dayOfWeek)} >
+                <Text>{dayOfWeek == "Sa" ? "S" : dayOfWeek}</Text>
+              </Pressable>
 
-          ))}
+            ))}
+          </View>
+        <CalendarDisplay >
+        </CalendarDisplay>
 
         </View>
-        {selectedIndex !== -1
-          && (
-            <BlurView
-              style={[styles.blur]}
-              blurType="light"
-              blurAmount={3}
-            />
-          )}
-        <View style={styles.container}>
-          {times.map((time) => (
-            <View style={styles.timeSlot}>
-              <Text style={styles.timeText}>{time}</Text>
-              <View style={styles.timeLine} />
-            </View>
-          ))}
-          {events.map((event) => {
-            const eventDisplay = calcEventDisplay(event);
-            return (
-              <View
-                style={[{ height: eventDisplay.eventHeight, top: eventDisplay.startOffset },
-                styles.eventItem]}
-              >
-                <Text style={styles.eventTitle}>{event.title}</Text>
-                <Text style={styles.eventSubtitle}>{eventDisplay.eventTimeString}</Text>
-              </View>
-            );
-          })}
-          {selectedIndex !== -1
-            && (
-              <Pressable
-                style={[styles.blur]}
-                onPress={() => closeTodo()}
-              >
-                <BlurView
-                  style={[styles.blur]}
-                  blurType="light"
-                  blurAmount={3}
-                />
-              </Pressable>
-            )}
-          {todos.map((todo, i) => {
-            const todoDisplay = calcEventDisplay(todo);
-            return (
-              <Pressable
-                style={[{ height: todoDisplay.eventHeight, top: todoDisplay.startOffset },
-                styles.todoItem]}
-                onPress={() => todoPress(i, todoDisplay.startOffset)}
-              >
-                <Text style={styles.todoTitle}>{todo.title}</Text>
-                <Text style={styles.todoSubtitle}>{todoDisplay.eventTimeString}</Text>
-              </Pressable>
-            );
-          })}
-          {selectedIndex !== -1
-            && (
-              <DropShadow style={[styles.shadow, styles.todoPopup, calcStyle()]}>
-                <View style={styles.popupButtonWrapper}>
-                  <Pressable
-                    style={({ pressed }) => [styles.popupButton,
-                    styles.completeButton,
-                    pressed ? styles.pressed : null]}
-                    onPress={() => null}
-                  >
-                    <Text style={[styles.popupButtonText]}>Complete</Text>
-                  </Pressable>
-                  <Pressable
-                    style={({ pressed }) => [styles.popupButton,
-                    styles.delayButton,
-                    pressed ? styles.pressed : null]}
-                    onPress={() => null}
-                  >
-                    <Text style={[styles.popupButtonText]}>Do later</Text>
-                  </Pressable>
-                </View>
-                <View style={styles.popupTimeWrapper}>
-                  <Text style={styles.popupTimeLabel}>Time done</Text>
-                  <View style={styles.timeInputWrapper}>
-                    <TextInput
-                      style={styles.timeInput}
-                      onChangeText={(text) => setTimeDone(text.replace(/[^0-9]/g, ''))}
-                      value={timeDone}
-                      placeholder={timeDone}
-                      keyboardType="numeric"
-                    />
-                  </View>
-                  <Text style={styles.timeMin}>min</Text>
-                </View>
-              </DropShadow>
-            )}
-        </View>
-      </ScrollView>
+          </GestureDetector>
+        </ScrollView>
     </SafeAreaView>
   );
 }

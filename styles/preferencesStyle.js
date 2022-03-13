@@ -24,6 +24,14 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
 
+  importText: {
+    flex: 1,
+    //height: 20,
+    color: "#39A1FF",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+
   calendarItemText: {
     flex: 1,
     height: 20,
@@ -121,6 +129,23 @@ newItemCard: {
   disabled: {
     opacity: 0.5,
   },
+  uncheckedCircle: {
+    width: 20,
+    height: 20,
+    borderColor: '#39A4FF',
+    borderWidth: 2,
+    borderRadius: 20,
+   // marginRight: 15,
+  },
+
+  exitButton: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#FF0000',
+    textAlign: 'center',
+    padding: 18,
+  },
+
 
   layerContainer: {
     borderRadius: 20,

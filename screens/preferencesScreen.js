@@ -6,7 +6,7 @@ import DropShadow from 'react-native-drop-shadow';
 //import { components } from 'react-select';
 import RNCalendarEvents from 'react-native-calendar-events';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck, faPlus } from '@fortawesome/free-solid-svg-icons';
 //import { Dropdown } from 'react-native-material-dropdown';
 import { styles } from '../styles/preferencesStyle';
 
@@ -16,6 +16,7 @@ export default function Preferences({ navigation }) {
   const [selectedCalendars, setSelectedCalendars] = useState(new Set());
   const [priorities, setPriorities] = useState([]);
   const [selectedPriority, setSelectedPriority] = useState();
+  const daysOfWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   useEffect(() => {
     RNCalendarEvents.checkPermissions(true)
@@ -64,7 +65,7 @@ export default function Preferences({ navigation }) {
         });
     } else {
       [
-      // handle the case of no calendars selected
+        // handle the case of no calendars selected
       ];
     }
   }
@@ -89,72 +90,109 @@ export default function Preferences({ navigation }) {
     <SafeAreaView style={styles.scroll}>
       <ScrollView style={styles.scroll}>
         <View style={styles.card}>
-        <DropShadow style={[styles.shadow, styles.newItemCard]}>
-          <Text style={styles.title}>Preferences: </Text>
-          <View style={styles.container}>
-          <DropShadow style={[styles.shadow, styles.layerContainer]}>
-            <Text style={styles.text}>Prioritize by: </Text>
-            <Picker
-              selectedValue={selectedPriority}
-              style={{ width: 150, marginLeft: 30 }}
-              onValueChange={(itemValue, itemIndex) => selectPriority(itemValue)}
-            >
-              <Picker.Item label="Due Date" value="duedate" />
-              <Picker.Item label="Difficulty" value="difficulty" />
-              <Picker.Item label="Length" value="length" />
-              <Picker.Item label="Importance" value="importance" />
-            </Picker>
-            </DropShadow>
-          </View>
-          
-          {/* Calendars from iCal */}
-          <View style={styles.calendarItemContainer}>
-            <Text style={styles.title}>Choose your Calendars: </Text>
-            {availableCalendars.map((data, i, row) => {
-              if (i + 1 === row.length) {
+          <DropShadow style={[styles.shadow, styles.newItemCard]}>
+            <Text style={styles.title}>Preferences: </Text>
+            <View style={styles.container}>
+              <DropShadow style={[styles.shadow, styles.layerContainer]}>
+                <Text style={styles.text}>Prioritize by: </Text>
+                <Picker
+                  selectedValue={selectedPriority}
+                  style={{ width: 150, marginLeft: 30 }}
+                  onValueChange={(itemValue, itemIndex) => selectPriority(itemValue)}
+                >
+                  <Picker.Item label="Due Date" value="duedate" />
+                  <Picker.Item label="Difficulty" value="difficulty" />
+                  <Picker.Item label="Longest First" value="longest" />
+                  <Picker.Item label="Shortest First" value="shortest" />
+                  <Picker.Item label="Importance" value="importance" />
+                  <Picker.Item label="Start Date" value="startdate" />
+                  <Picker.Item label="Work" value="work" />
+                  <Picker.Item label="School" value="School" />
+                </Picker>
+              </DropShadow>
+            </View>
+
+            <View style={styles.container}>
+              <DropShadow style={[styles.shadow, styles.layerContainer]}>
+              {availableCalendars.map((data, i, row) => {
+              return (
+                <View>
+              <View style={styles.calendarItemInner}>
+
+                <Text style={styles.text}>Work Days: </Text>
+                </View>
+                <View style={styles.calendarItemInner}>
+
+                <Text style={styles.text}>Work Hours: </Text>
+                </View>
+                </View>
+                );
+              })}
+              </DropShadow>
+            </View>
+
+            <Text style={styles.title}>Calendars: </Text>
+            {/* Calendars from iCal */}
+            <View style={styles.calendarItemContainer}>
+              <Pressable >
+                {/* TODO: add other calendars like google and outlook */}
+            <View style={styles.calendarItemInner}>
+                        <Text style={styles.importText}>Import Calendar</Text>
+                        <FontAwesomeIcon icon={faPlus} style={styles.checkImage} size={24} />
+
+                      </View>
+                      </Pressable>
+              {availableCalendars.map((data, i, row) => {
+                if (i + 1 === row.length) {
+                  return (
+                    <TouchableOpacity
+                      style={[styles.calendarItem]}
+                      onPress={() => setCalendar(data.id)}
+                      key={data.id}
+                    >
+                      <View style={[styles.calendarItemInner, styles.calendarItemLast]}>
+                        <Text style={styles.calendarItemText}>{data.title}</Text>
+                        {selectedCalendars.has(data.id)
+                          ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
+                          : <View style={styles.uncheckedCircle} />}
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
                 return (
                   <TouchableOpacity
                     style={[styles.calendarItem]}
                     onPress={() => setCalendar(data.id)}
                     key={data.id}
                   >
-                    <View style={[styles.calendarItemInner, styles.calendarItemLast]}>
+                    <View style={styles.calendarItemInner}>
                       <Text style={styles.calendarItemText}>{data.title}</Text>
-                      { selectedCalendars.has(data.id)
+                      {selectedCalendars.has(data.id)
                         ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
-                        : null}
+                        : <View style={styles.uncheckedCircle} />}
                     </View>
                   </TouchableOpacity>
                 );
-              }
-              return (
-                <TouchableOpacity
-                  style={[styles.calendarItem]}
-                  onPress={() => setCalendar(data.id)}
-                  key={data.id}
-                >
-                  <View style={styles.calendarItemInner}>
-                    <Text style={styles.calendarItemText}>{data.title}</Text>
-                    { selectedCalendars.has(data.id)
-                      ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
-                      : null}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+              })}
+            </View>
 
-          <DropShadow
-            style={[styles.shadow, styles.doneButtonWrapper]}
-          >
-            <Pressable
-              style={({ pressed }) => [styles.doneButton, pressed ? styles.pressed : null, (selectedCalendars.size == 0 || selectPriority == null) ? styles.disabled : null]}
-              onPress={submitCalendarChange}
-              disabled={selectedCalendars.size == 0}
+            <DropShadow
+              style={[styles.shadow, styles.doneButtonWrapper]}
             >
-              <Text style={styles.doneButtonText}>Done</Text>
+              <Pressable
+                style={({ pressed }) => [styles.doneButton, pressed ? styles.pressed : null, (selectedCalendars.size == 0 || selectPriority == null) ? styles.disabled : null]}
+                onPress={submitCalendarChange}
+                disabled={selectedCalendars.size == 0}
+              >
+                <Text style={styles.doneButtonText}>Update Preferences</Text>
+              </Pressable>
+
+            </DropShadow>
+            <Pressable>
+              { /* TODO: log usere out */}
+
+              <Text style={styles.exitButton}>Logout</Text>
             </Pressable>
-          </DropShadow>
           </DropShadow>
         </View>
       </ScrollView>
