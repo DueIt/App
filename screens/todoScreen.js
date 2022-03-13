@@ -9,6 +9,8 @@ import { styles } from '../styles/todoStyle';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
+import { AuthContext } from '../App';
+
 export default function Todo({ navigation }) {
   const [todos, setTodos] = useState([]);
   const [selectedTodos, setSelectedTodos] = useState(new Set());
@@ -16,6 +18,8 @@ export default function Todo({ navigation }) {
 
   const [accomplished, setAccomplished] = useState(false);
  
+
+  const { signOut } = React.useContext(AuthContext);
 
   useEffect(() => {
     const testTodos = {
@@ -100,6 +104,9 @@ export default function Todo({ navigation }) {
             </DropShadow>
           ))}
         </View>
+        <Pressable onPress={() => signOut()}>
+          <Text>Logout</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
