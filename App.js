@@ -122,7 +122,7 @@ function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {state.userToken === null
+        {state.userToken !== null
           ? (
             <AuthStack.Navigator screenOptions={{
               headerShown: false,

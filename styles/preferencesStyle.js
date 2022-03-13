@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 
   scroll: {
-    overflow: 'visible',
+    overflow: 'hidden',
   },
 
   calendarItemContainer: {
@@ -62,14 +62,29 @@ newItemCard: {
 
   calendarItemLast: {
     borderBottomWidth: 0,
+    paddingTop: 17,
+    paddingBottom: 8,
+    //height: 110,
+    //marginHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   container: {
     width: '85%',
-
     alignItems: 'center',
     marginHorizontal: 25,
   },
+
+
+  setContainer: {
+    width: '85%',
+    alignItems: 'center',
+    marginHorizontal: 25,
+    paddingTop: 25,
+    
+  },
+
 
   doneButtonWrapper: {
     width: '85%',
@@ -160,6 +175,45 @@ newItemCard: {
     position: 'relative',
     color: 'white',
     height:100,
+    overflow: "hidden",
+  },
+
+  layerContainer2: {
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    //padding: 18,
+    width: '100%',
+    position: 'relative',
+    color: 'white',
+    height:100,
+    overflow: "hidden",
+  },
+
+  datePickerStyle: {
+    height:110,
+
+    width: 150,
+    transform: [
+        { scaleX: 0.9 }, 
+        { scaleY: 0.9 },
+     ],
+  },
+
+  columnLayerContainer: {
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+    flexDirection: 'column',
+    alignItems: 'center',
+    //justifyContent: "space-between",
+    //padding: 18,
+    marginBottom: 20,
+    width: '100%',
+
+    position: 'relative',
+    color: 'white',
+    //height:100,
     overflow: "hidden",
   },
 });

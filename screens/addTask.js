@@ -6,7 +6,7 @@ import DropShadow from 'react-native-drop-shadow';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { styles } from '../styles/addTaskStyle';
-import DatePicker from 'react-native-date-picker'
+import DatePicker from 'react-native-date-picker';
 
 export default function AddTask({ navigation }) {
     const [selectedHours, setSelectedHours] = useState("0");

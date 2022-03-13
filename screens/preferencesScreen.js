@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck, faPlus } from '@fortawesome/free-solid-svg-icons';
 //import { Dropdown } from 'react-native-material-dropdown';
 import { styles } from '../styles/preferencesStyle';
+import DatePicker from 'react-native-date-picker';
+
 
 export default function Preferences({ navigation }) {
   const [hasCalPermission, setHasCalPermission] = useState(false);
@@ -17,6 +19,12 @@ export default function Preferences({ navigation }) {
   const [priorities, setPriorities] = useState([]);
   const [selectedPriority, setSelectedPriority] = useState();
   const daysOfWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const [workStart, setWorkStart] = useState(new Date());
+  const [workEnd, setWorkEnd] = useState(new Date());
+  const [selectedWorkDays, setSelectedWorkDays] = useState();
+
+
+
 
   useEffect(() => {
     RNCalendarEvents.checkPermissions(true)
@@ -112,22 +120,32 @@ export default function Preferences({ navigation }) {
               </DropShadow>
             </View>
 
-            <View style={styles.container}>
-              <DropShadow style={[styles.shadow, styles.layerContainer]}>
-              {availableCalendars.map((data, i, row) => {
-              return (
-                <View>
-              <View style={styles.calendarItemInner}>
+            <View style={styles.setContainer}>
+              <DropShadow style={[styles.shadow, styles.columnLayerContainer]}>
+              
+              <View style={styles.calendarItemLast}>
+              <Text style={styles.text}>Work Days and Hours: </Text>
+              </View>
+              <View style={styles.layerContainer2}>
 
-                <Text style={styles.text}>Work Days: </Text>
+              <Picker
+                  selectedValue={selectedWorkDays}
+                  style={{  width: 150, marginLeft: 70 }}
+                  onValueChange={(itemValue, itemIndex) => setSelectedWorkDays(itemValue)}
+                >
+                  <Picker.Item label="Weekdays" value="Weekdays" />
+                  <Picker.Item label="All Days" value="All Days" />
+                </Picker>
                 </View>
-                <View style={styles.calendarItemInner}>
 
-                <Text style={styles.text}>Work Hours: </Text>
-                </View>
-                </View>
-                );
-              })}
+                <View style={styles.calendarItemLast}>
+
+<DatePicker style={styles.datePickerStyle} date={workStart} onDateChange={setWorkStart} mode="time"></DatePicker>
+
+<Text style={styles.text}>-</Text>
+
+<DatePicker style={styles.datePickerStyle} date={workEnd} onDateChange={setWorkEnd} mode="time"></DatePicker>
+</View>
               </DropShadow>
             </View>
 
