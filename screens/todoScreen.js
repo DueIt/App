@@ -104,9 +104,6 @@ export default function Todo({ navigation }) {
             </DropShadow>
           ))}
         </View>
-        <Pressable onPress={() => signOut()}>
-          <Text>Logout</Text>
-        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );

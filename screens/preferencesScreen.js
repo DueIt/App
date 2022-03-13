@@ -10,6 +10,8 @@ import { faCircleCheck, faPlus } from '@fortawesome/free-solid-svg-icons';
 //import { Dropdown } from 'react-native-material-dropdown';
 import { styles } from '../styles/preferencesStyle';
 import DatePicker from 'react-native-date-picker';
+import { AuthContext } from '../App';
+
 
 
 export default function Preferences({ navigation }) {
@@ -22,6 +24,7 @@ export default function Preferences({ navigation }) {
   const [workStart, setWorkStart] = useState(new Date());
   const [workEnd, setWorkEnd] = useState(new Date());
   const [selectedWorkDays, setSelectedWorkDays] = useState();
+  const { signOut } = React.useContext(AuthContext);
 
 
 
@@ -206,9 +209,7 @@ export default function Preferences({ navigation }) {
               </Pressable>
 
             </DropShadow>
-            <Pressable>
-              { /* TODO: log usere out */}
-
+            <Pressable onPress={() => signOut()}>
               <Text style={styles.exitButton}>Logout</Text>
             </Pressable>
           </DropShadow>
