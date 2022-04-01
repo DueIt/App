@@ -42,8 +42,8 @@ export default function Signup({ navigation }) {
         },
         body: JSON.stringify(
           {
-            email,
-            password,
+            'email' : email,
+            'password' : password
           },
         ),
       }).then((res) => {
@@ -63,7 +63,7 @@ export default function Signup({ navigation }) {
                 const savingJWT = await SInfo.setItem('jwt', jwt, {
                   sharedPreferencesName: 'dueItPrefs',
                   keychainService: 'dueItAppKeychain',
-                });
+                }); 
                 signIn({ token: jwt });
               }
             })
