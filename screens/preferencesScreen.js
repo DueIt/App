@@ -142,6 +142,14 @@ export default function Preferences({ navigation }) {
                 </TouchableOpacity>
               );
             })}
+
+            {/* <Pressable
+              style={styles.doneButton}
+              onPress={submitCalendarChange}
+            >
+              <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
+              <Text style={styles.doneButtonText}>Sign in to Google Calendar</Text>
+            </Pressable> */}
           </View>
 
           <DropShadow

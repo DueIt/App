@@ -7,6 +7,11 @@ import {
   TextInput,
 } from 'react-native';
 
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+
 import SInfo from 'react-native-sensitive-info';
 import { styles } from '../styles/authStyle';
 import { AuthContext } from '../App';
@@ -128,6 +133,77 @@ export default function Signup({ navigation }) {
           disabled={email.length === 0 || password.length === 0 || password2.length === 0}
         >
           <Text style={styles.loginButtonText}>Sign Up</Text>
+        </Pressable>
+        <Pressable 
+        style={({ pressed }) => [styles.loginButton,
+          pressed ? styles.pressed : null]}
+        onPress={() =>  {
+            GoogleSignin.configure({
+                iosClientId: '224295704614-tk6lcdqut4ef8atb8ppq3i38kuili358.apps.googleusercontent.com',
+            });
+        GoogleSignin.hasPlayServices().then((hasPlayService) => {
+                if (hasPlayService) {
+                    GoogleSignin.signIn().then((userInfo) => {
+                              console.log(JSON.stringify(userInfo))
+                              const email = userInfo['user']['email']
+                              const password = userInfo['user']['id']
+                              console.log("here")
+                              fetch(`${URL}/sign-up`, {
+                                method: 'POST',
+                                headers: {
+                                  Accept: 'application/json',
+                                  'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(
+                                  {
+                                    email,
+                                    password,
+                                  },
+                                ),
+                              }).then((res) => {
+                                console.log(res)
+                                if (res.status === 401) {
+                                  setError('Invalid login credentials.');
+                                } else if (res.status === 500) {
+                                  setError('Sorry, there was a server error. Please try again.');
+                                } else if (res.status !== 200) {
+                                  console.log(res.status)
+                                  console.log(res)
+                                  setError('Something went wrong.');
+                                  console.log(res)
+                                } else {
+                                  res.json()
+                                    .then(async (data) => {
+                                      if (!('jwt' in data)) {
+                                        setError('Sorry, there was a response issue. Please try again.');
+                                      } else {
+                                        const { jwt } = data;
+                                        const savingJWT = await SInfo.setItem('jwt', jwt, {
+                                          sharedPreferencesName: 'dueItPrefs',
+                                          keychainService: 'dueItAppKeychain',
+                                        });
+                                        signIn({ token: jwt });
+                                      }
+                                    })
+                                    .catch((curError) => {
+                                      setError(`There has been a problem with login: ${curError.message}`);
+                                    });
+                                }
+                              }).catch((curError) => {
+                                setError(`There was a problem connecting: ${curError.message}`);
+                              });
+                    })
+                    
+                    //.catch((e) => {
+                    //console.log("ERROR IS: " + JSON.stringify(e));
+                    //})
+                }
+        }).catch((e) => {
+            console.log("ERROR IS: " + JSON.stringify(e));
+        })
+        }}
+        >
+          <Text style={styles.loginButtonText}>Sign up with Google</Text>
         </Pressable>
         <View style={styles.signUpButton}>
           <Pressable style={({ pressed }) => [pressed ? styles.pressed : null]} onPress={() => navigation.navigate('Login')}>
