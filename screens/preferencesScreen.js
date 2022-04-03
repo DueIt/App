@@ -224,6 +224,10 @@ export default function Preferences({ navigation }) {
               onPress={() =>  {
                 GoogleSignin.configure({
                     iosClientId: '224295704614-tk6lcdqut4ef8atb8ppq3i38kuili358.apps.googleusercontent.com',
+                    scope: ['https://www.googleapis.com/auth/calendar.readonly',
+                    'https://www.googleapis.com/auth/calendar',
+                    'https://www.googleapis.com/auth/calendar.events',
+                    'https://www.googleapis.com/auth/calendarlist.readonly'],
                 });
             GoogleSignin.hasPlayServices().then((hasPlayService) => {
                     if (hasPlayService) {
@@ -240,7 +244,7 @@ export default function Preferences({ navigation }) {
                                   // }
                                   // console.log(JSON.stringify(getUsersCalendarList))
 
-                                  fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList', {
+                                  fetch('https://www.googleapis.com/calendar/v3/users/me/calendarList?key=AIzaSyCLKZgpn4ia-lUgWjlgsv_MT9Br2DlhhA8', {
                                     method: 'GET',
                                     headers: {
                                       Accept: 'application/json',
