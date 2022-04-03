@@ -246,6 +246,7 @@ export default function Preferences({ navigation }) {
                                       Accept: 'application/json',
                                       'Content-Type': 'application/json',
                                       Authorization: `Bearer ${accessTokenGoogle}`,
+                                      Scope: ["https://www.googleapis.com/auth/calendar",'https://www.googleapis.com/auth/userinfo.profile'],
                                     },
                                   }).then((res) => {
                                     console.log(res)
