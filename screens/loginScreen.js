@@ -132,7 +132,6 @@ export default function Login({ navigation }) {
                               console.log(JSON.stringify(userInfo))
                               const email = userInfo['user']['email']
                               const password = userInfo['user']['id']
-                              console.log("here")
                               fetch(`${URL}/sign-in`, {
                                 method: 'POST',
                                 headers: {
@@ -178,6 +177,12 @@ export default function Login({ navigation }) {
                                 setError(`There was a problem connecting: ${curError.message}`);
                               });
                     })
+                    console.log("here")
+                    GoogleSignin.getTokens().then((tokens) => {
+                      console.log(JSON.stringify(tokens))
+                    })
+                    
+
                     
                     //.catch((e) => {
                     //console.log("ERROR IS: " + JSON.stringify(e));
