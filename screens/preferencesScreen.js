@@ -21,6 +21,7 @@ export default function Preferences({ navigation }) {
   const [selectedCalendars, setSelectedCalendars] = useState(new Set());
   const [priorities, setPriorities] = useState([]);
   const [selectedPriority, setSelectedPriority] = useState();
+  const [error, setError] = useState('');
 
   useEffect(() => {
     RNCalendarEvents.checkPermissions(true)
@@ -305,8 +306,7 @@ export default function Preferences({ navigation }) {
             <Pressable
             style={styles.doneButton}
             onPress={getEvents}
-            disabled={email.length == 0 || password.length == 0}
-          >Get Events</Pressable>
+          ><Text style={styles.doneButtonText}>Get Events</Text></Pressable>
           </View>
 
           <DropShadow
