@@ -105,6 +105,19 @@ export default function Preferences({ navigation }) {
     }
   }
 
+  function getEvents(){
+    setError('');
+    fetch(`${URL}/getrecentevents`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).catch((curError) => {
+      setError(`There was a problem connecting: ${curError.message}`);
+    });
+  }
+
   function selectPriority(value) {
     const newValue = value;
     setSelectedPriority(newValue);
@@ -288,6 +301,12 @@ export default function Preferences({ navigation }) {
               <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
               <Text style={styles.doneButtonText}>Sign in to Google Calendar</Text>
             </Pressable>
+
+            <Pressable
+            style={styles.doneButton}
+            onPress={getEvents}
+            disabled={email.length == 0 || password.length == 0}
+          >Get Events</Pressable>
           </View>
 
           <DropShadow
