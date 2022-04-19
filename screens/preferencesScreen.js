@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 //import { Dropdown } from 'react-native-material-dropdown';
 import { styles } from '../styles/preferencesStyle';
+import { URL } from '../setup';
+import SInfo from 'react-native-sensitive-info';
 // import {
 //   GoogleSignin,
 //   GoogleSigninButton,
@@ -106,14 +108,40 @@ export default function Preferences({ navigation }) {
     }
   }
 
-  function getEvents(){
+  async function getEvents(){
     setError('');
-    fetch(`${URL}/getrecentevents`, {
+    const jwt = await SInfo.getItem('jwt', {
+      sharedPreferencesName: 'dueItPrefs',
+      keychainService: 'dueItAppKeychain',
+    }); 
+    fetch(`${URL}/getcalendarlist`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'Token': jwt
       },
+    }).then((res) => {
+      if (res.status === 401) {
+        setError('Invalid auth token.');
+      } else if (res.status === 500) {
+        setError('Sorry, there was a server error. Please try again.');
+      } else if (res.status !== 200) {
+        setError('Something went wrong.');
+      }
+      else if(res.status == 200){
+        res.json()
+            .then(async (data) => {
+              console.log('sup');
+              if (!('calendars' in data)) {
+                setError('Sorry, there was a response issue with calendars. Please try again.');
+              }
+              console.log(data['calendars']);
+            })
+            .catch((curError) => {
+              setError(`There has been a problem with login: ${curError.message}`);
+            });
+      }
     }).catch((curError) => {
       setError(`There was a problem connecting: ${curError.message}`);
     });
