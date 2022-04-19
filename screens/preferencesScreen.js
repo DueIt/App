@@ -9,11 +9,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 //import { Dropdown } from 'react-native-material-dropdown';
 import { styles } from '../styles/preferencesStyle';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+// import {
+//   GoogleSignin,
+//   GoogleSigninButton,
+//   statusCodes,
+// } from '@react-native-google-signin/google-signin';
 
 export default function Preferences({ navigation }) {
   const [hasCalPermission, setHasCalPermission] = useState(false);
@@ -232,7 +232,7 @@ export default function Preferences({ navigation }) {
               );
             })}
 
-            <Pressable
+            {/* <Pressable
               style={styles.doneButton}
               onPress={() =>  {
                 GoogleSignin.configure({
@@ -300,7 +300,7 @@ export default function Preferences({ navigation }) {
             >
               <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
               <Text style={styles.doneButtonText}>Sign in to Google Calendar</Text>
-            </Pressable>
+            </Pressable> */}
 
             <Pressable
             style={styles.doneButton}
