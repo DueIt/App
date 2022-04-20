@@ -129,9 +129,12 @@ export default function Preferences({ navigation }) {
       } else if (res.status !== 200) {
         setError('Something went wrong.');
       }
-      else if(res.status == 200){
+      else{
+        console.log("in else")
+        console.log(res.json())
         res.json()
             .then(async (data) => {
+              console.log(data);
               console.log('sup');
               if (!('calendars' in data)) {
                 setError('Sorry, there was a response issue with calendars. Please try again.');
