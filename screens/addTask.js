@@ -250,7 +250,7 @@ export default function AddTask({ navigation }) {
                                 <DropShadow style={[styles.shadow, styles.doneButtonWrapper]}>
                                 <Pressable style={({ pressed }) => [styles.doneButton, (title=='New Item') ? styles.disabled : null, pressed ? styles.pressed : null]} 
                                 disabled = {title=='New Item'}
-                                onPress={() => { addTask(); todoNavigate();}}>
+                                onPress={() => { addTask(); clearItem(); todoNavigate();}}>
                                             <Text style={styles.doneButtonText}>Create Item</Text>
                                         </Pressable>
                                 </DropShadow>

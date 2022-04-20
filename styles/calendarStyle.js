@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
 
   timeInputWrapper: {
     backgroundColor: '#F5F5F5',
-    paddingVertical: 5,
+    //paddingVertical: 5,
     marginHorizontal: 10,
     borderRadius: 10,
     width: 50,
@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
 
   timeInput: {
     paddingHorizontal: 5,
+    paddingVertical: 5,
     textAlign: 'center',
     flex: 1,
     flexWrap: 'wrap',

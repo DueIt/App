@@ -93,7 +93,7 @@ export default function Calendar({ navigation }) {
                   pressed ? styles.pressed : null]}
                   onPress={() => null}
                 >
-                  <Text style={[styles.popupButtonText]}>Complete</Text>
+                  <Text style={[styles.popupButtonText]}>Update Time</Text>
                 </Pressable>
                 <Pressable
                   style={({ pressed }) => [styles.popupButton,
@@ -118,7 +118,7 @@ export default function Calendar({ navigation }) {
                 <Text style={styles.timeMin}>min</Text>
               </View>
               <Pressable onPress={addTaskNavigate}>
-                <Text style={styles.exitButton}>Edit Item</Text>
+                <Text style={styles.exitButton}>Delete Item</Text>
               </Pressable>
             </DropShadow>
           )}

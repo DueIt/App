@@ -139,7 +139,7 @@ export default function Todo({ navigation }) {
       // const min = (Date.parse(event.end) - Date.parse(event.start)) / 1000 / 60;
       // setTimeDone(min.toString());
       setSelectedIndex(index);
-      scrollHandler(offset*index);
+      scrollHandler(9);
     }
   }
 
@@ -248,7 +248,7 @@ export default function Todo({ navigation }) {
                   <Text style={styles.timeMin}>min</Text>
                 </View>
                 <Pressable onPress={addTaskNavigate}>
-                  <Text style={styles.exitButton}>Edit Item</Text>
+                  <Text style={styles.exitButton}>Delete Item</Text>
                 </Pressable>
               </DropShadow>
               </View>
