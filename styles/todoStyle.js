@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scroll: {
-    overflow: 'visible',
+    overflow: 'hidden',
   },
 
   container: {
@@ -76,14 +76,22 @@ const styles = StyleSheet.create({
   todoPressableWrapper: {
     flexDirection: 'row',
   },
+  todoItemPopup: {
+    borderRadius: 20,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 18,
+    marginBottom: 0,
+  },
 
   todoPopup: {
     width: '70%',
     backgroundColor: 'white',
-    position: 'absolute',
+    //position: 'absolute',
     marginLeft: 63,
     borderRadius: 15,
-    padding: 7,
+    padding: 9,
   },
 
 
@@ -139,6 +147,7 @@ const styles = StyleSheet.create({
 
   popupButtonWrapper: {
     flexDirection: 'row',
+    padding: 4
   },
 
   popupTimeLabel: {
@@ -152,11 +161,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 15,
     marginBottom: 5,
+    //padding: 5
   },
 
   timeInputWrapper: {
     backgroundColor: '#F5F5F5',
-    paddingVertical: 5,
+    paddingVertical: 13,
     marginHorizontal: 10,
     borderRadius: 10,
     width: 50,

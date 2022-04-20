@@ -139,7 +139,7 @@ export default function Todo({ navigation }) {
       // const min = (Date.parse(event.end) - Date.parse(event.start)) / 1000 / 60;
       // setTimeDone(min.toString());
       setSelectedIndex(index);
-      scrollHandler(offset);
+      scrollHandler(offset*index);
     }
   }
 
@@ -157,9 +157,10 @@ export default function Todo({ navigation }) {
 
   return (
     <SafeAreaView style={styles.scroll}>
-      <ScrollView style={styles.scroll} ref={(curRef) => {
-        setRef(curRef);
-      }}>
+      <ScrollView style={styles.scroll} ref={(ref) => {
+        setRef(ref);}}
+        scrollEnabled={selectedIndex === -1}
+      >
         <View style={styles.row}>
           <Pressable onPress={() => changeAccomplishSetting()}>
             <FontAwesomeIcon icon={faCheckSquare} style={accomplished == false ? styles.settings : styles.checkImage} size={24} />
@@ -206,7 +207,7 @@ export default function Todo({ navigation }) {
               <View style={styles.absolute}>
                 
               <Pressable onPress={() => todoPress(selectedIndex, 9)}>
-                <DropShadow style={[styles.shadow, styles.todoItem]}>
+                <DropShadow style={[styles.shadow, styles.todoItemPopup]}>
                   <Pressable onPress={() => selectTodo(todos[selectedIndex].task_id, todos[selectedIndex].total_time)} style={styles.todoPressWrapper}>
                     {
                       selectedTodos.has(todos[selectedIndex].task_id)
@@ -229,16 +230,9 @@ export default function Todo({ navigation }) {
                     pressed ? styles.pressed : null]}
                     onPress={() => null}
                   >
-                    <Text style={[styles.popupButtonText]}>Complete</Text>
+                    <Text style={[styles.popupButtonText]}>Update Time</Text>
                   </Pressable>
-                  <Pressable
-                    style={({ pressed }) => [styles.popupButton,
-                    styles.delayButton,
-                    pressed ? styles.pressed : null]}
-                    onPress={() => null}
-                  >
-                    <Text style={[styles.popupButtonText]}>Do later</Text>
-                  </Pressable>
+                  
                 </View>
                 <View style={styles.popupTimeWrapper}>
                   <Text style={styles.popupTimeLabel}>Time done</Text>

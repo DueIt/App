@@ -262,9 +262,9 @@ export default function Calendar({ navigation }) {
   }
 
   return (
-    <SafeAreaView tyle={{ overflow: 'visible' }}>
+    <SafeAreaView style={styles.scroll}>
       <ScrollView
-        style={{ overflow: 'visible' }}
+        style={{ overflow: 'hidden' }}
         ref={(curRef) => {
           setRef(curRef);
         }}
