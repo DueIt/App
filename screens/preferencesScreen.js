@@ -121,32 +121,17 @@ export default function Preferences({ navigation }) {
         'Content-Type': 'application/json',
         'Token': jwt
       },
-    }).then((res) => {
-      if (res.status === 401) {
-        setError('Invalid auth token.');
-      } else if (res.status === 500) {
-        setError('Sorry, there was a server error. Please try again.');
-      } else if (res.status !== 200) {
-        setError('Something went wrong.');
+    }).then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      console.log('sup');
+      if (!('calendars' in data)) {
+        setError('Sorry, there was a response issue with calendars. Please try again.');
       }
-      else{
-        console.log("in else")
-        console.log(res.json())
-        res.json()
-            .then(async (data) => {
-              console.log(data);
-              console.log('sup');
-              if (!('calendars' in data)) {
-                setError('Sorry, there was a response issue with calendars. Please try again.');
-              }
-              console.log(data['calendars']);
-            })
-            .catch((curError) => {
-              setError(`There has been a problem with login: ${curError.message}`);
-            });
-      }
-    }).catch((curError) => {
-      setError(`There was a problem connecting: ${curError.message}`);
+      console.log(data['calendars']);
+    })
+    .catch((curError) => {
+      setError(`There has been a problem with login: ${curError.message}`);
     });
   }
 
