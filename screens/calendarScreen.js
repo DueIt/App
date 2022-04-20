@@ -143,6 +143,34 @@ export default function Calendar({ navigation }) {
     return newTimes;
   }
 
+  const getTasks = async () => {
+    const jwt = await SInfo.getItem('jwt', {
+      sharedPreferencesName: 'dueItPrefs',
+      keychainService: 'dueItAppKeychain',
+    }); 
+    var obj = {
+      method: 'GET',
+      headers: {
+        'Token': jwt
+      }
+    }
+    try {
+      const response = await fetch(`${URL}/get-tasks`, obj);
+      const json = await response.json();
+      setTodos(json.tasks);
+      console.log()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getTasks();
+  },[]);
+
+
+
+
   useEffect(() => {
     setTimes(createCalendar());
 
