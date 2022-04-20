@@ -20,6 +20,13 @@ const styles = StyleSheet.create({
 
   },
 
+  absolute: {
+    position: "absolute",
+    height: '100%',
+    width: '100%',
+    flexDirection: 'column'
+  },
+
   pressed: {
     opacity: 0.8,
   },
@@ -66,6 +73,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  todoPressableWrapper: {
+    flexDirection: 'row',
+  },
+
+  todoPopup: {
+    width: '70%',
+    backgroundColor: 'white',
+    position: 'absolute',
+    marginLeft: 63,
+    borderRadius: 15,
+    padding: 7,
+  },
+
+
   todoTimeText: {
     fontSize: 16,
     fontWeight: '500',
@@ -90,6 +111,92 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 20,
     marginRight: 15,
+  },
+
+
+  completeButton: {
+    backgroundColor: '#44D97E',
+    marginRight: 3,
+  },
+
+  delayButton: {
+    backgroundColor: '#58A5FF',
+    marginLeft: 3,
+  },
+
+  popupButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+    flex: 1,
+    borderRadius: 15,
+  },
+
+  popupButtonText: {
+    color: 'white',
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+
+  popupButtonWrapper: {
+    flexDirection: 'row',
+  },
+
+  popupTimeLabel: {
+    color: '#808080',
+    fontSize: 16,
+  },
+
+  popupTimeWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 5,
+  },
+
+  timeInputWrapper: {
+    backgroundColor: '#F5F5F5',
+    paddingVertical: 5,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    width: 50,
+  },
+
+  timeInput: {
+    paddingHorizontal: 5,
+    textAlign: 'center',
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+
+  todoSubtitle: {
+    color: 'white',
+    marginLeft: 10,
+  },
+
+  blur: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+  },
+  exitButton: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#FF0000',
+    textAlign: 'center',
+    padding: 7,
   },
 });
 

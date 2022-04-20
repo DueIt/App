@@ -53,6 +53,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
+  exitButton: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#FF0000',
+    textAlign: 'center',
+    padding: 7,
+  },
+
   timeText: {
     color: '#C7C7C7',
     fontSize: 15,

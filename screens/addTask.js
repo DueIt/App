@@ -251,15 +251,12 @@ export default function AddTask({ navigation }) {
                                 <Pressable style={({ pressed }) => [styles.doneButton, (title=='New Item') ? styles.disabled : null, pressed ? styles.pressed : null]} 
                                 disabled = {title=='New Item'}
                                 onPress={() => { addTask(); todoNavigate();}}>
-
-                                { /* TODO: save to-do for the user */ }
                                             <Text style={styles.doneButtonText}>Create Item</Text>
                                         </Pressable>
                                 </DropShadow>
                             </View>
                             <Pressable onPress={clearItem}>
                             { /* TODO: delete this to-do from user */ }
-
                                             <Text style={styles.exitButton}>Clear Item</Text>
                                         </Pressable>
                         </ScrollView>
