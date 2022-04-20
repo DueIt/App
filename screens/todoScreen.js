@@ -82,6 +82,9 @@ export default function Todo({ navigation }) {
   }
 
   function selectTodo(id) {
+    //TODO:
+    //change task remaining time to 0
+    //make task fade to background
     const newSet = new Set(selectedTodos);
     if (newSet.has(id)) {
       newSet.delete(id);
