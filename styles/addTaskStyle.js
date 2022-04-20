@@ -37,6 +37,21 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 
+  doneButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  disabled: {
+    opacity: 0.5
+  },
+
+
+  pressed: {
+      opacity: 0.8
+  },
+
   title: {
     marginBottom: 30,
     marginTop: 10,

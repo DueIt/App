@@ -63,6 +63,22 @@ export default function AddTask({ navigation }) {
           });
     }
 
+    function clearItem() {
+        onChangeTitle("New Item"),
+        setEndDate(new Date()),
+        setSelectedHours("0"),
+        setSelectedMins("30"),
+        onChangeLocation(""),
+        setChunking(false),
+        setImportance(null),
+        setDifficulty(null),
+        setCategory(null)
+    }
+
+    function todoNavigate() {
+        navigation.navigate("Todo");
+      }
+
     function dateFromString(date) {
         const fDate = new Date(date);
         return `${fDate.getMonth()}/${fDate.getDay()}`;
@@ -232,13 +248,16 @@ export default function AddTask({ navigation }) {
                             </View>
                             <View style={styles.container}>
                                 <DropShadow style={[styles.shadow, styles.doneButtonWrapper]}>
-                                <Pressable style={styles.doneButton} onPress={addTask}>
+                                <Pressable style={({ pressed }) => [styles.doneButton, (title=='New Item') ? styles.disabled : null, pressed ? styles.pressed : null]} 
+                                disabled = {title=='New Item'}
+                                onPress={() => { addTask(); todoNavigate();}}>
+
                                 { /* TODO: save to-do for the user */ }
-                                            <Text style={styles.text}>Create Item</Text>
+                                            <Text style={styles.doneButtonText}>Create Item</Text>
                                         </Pressable>
                                 </DropShadow>
                             </View>
-                            <Pressable>
+                            <Pressable onPress={clearItem}>
                             { /* TODO: delete this to-do from user */ }
 
                                             <Text style={styles.exitButton}>Clear Item</Text>

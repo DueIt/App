@@ -13,11 +13,21 @@ import { URL } from '../setup';
 import { AuthContext } from '../App';
 
 export default function Todo({ navigation }) {
+  //This listener reloads the api call for getTasks when the todo screen is opened so that the list is up to date
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getTasks()
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+
   const [todos, setTodos] = useState([]);
   const [selectedTodos, setSelectedTodos] = useState(new Set());
   const changeAccomplishSetting = () => setAccomplished(previousState => !previousState);
-
   const [accomplished, setAccomplished] = useState(false);
+  const [error, setError] = useState('');
  
 
   const { signOut } = React.useContext(AuthContext);
@@ -46,26 +56,36 @@ export default function Todo({ navigation }) {
     getTasks();
   },[]);
 
-
- /*  useEffect(() => {
-    const testTodos = {
-      items: [
-        {
-          title: 'Math Homework',
-          time: 30,
-          due: '2022-02-25T24:00:00.000Z',
-          id: '1',
+  async function updateRemainingTime(task_id, time) {
+    const jwt = await SInfo.getItem('jwt', {
+        sharedPreferencesName: 'dueItPrefs',
+        keychainService: 'dueItAppKeychain',
+      }); 
+      var obj = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Token': jwt
         },
-        {
-          title: 'English Homework',
-          time: 150,
-          due: '2022-02-15T24:00:00.000Z',
-          id: '2',
-        },
-      ],
-    };
-    setTodos(testTodos.items);
-  }, []); */
+        body: JSON.stringify(
+            {
+              'remaining_time' : time
+            }
+          )
+      }
+      fetch(`${URL}/update-time/${task_id}`, obj).then((res) => {
+        if (res.status === 401) {
+          setError('Invalid auth token.');
+        } else if (res.status === 500) {
+          setError('Sorry, there was a server error. Please try again.');
+        } else if (res.status !== 200) {
+          setError('Something went wrong.');
+        }
+      }).catch((curError) => {
+        console.log(`There was a problem connecting: ${curError.message}`);
+      });
+  }
 
   function dateFromString(date) {
     const fDate = new Date(date);
@@ -81,15 +101,14 @@ export default function Todo({ navigation }) {
     return `${time} m`;
   }
 
-  function selectTodo(id) {
-    //TODO:
-    //change task remaining time to 0
-    //make task fade to background
+  function selectTodo(id, total_time) {
     const newSet = new Set(selectedTodos);
     if (newSet.has(id)) {
+      updateRemainingTime(id, total_time);
       newSet.delete(id);
       setSelectedTodos(newSet);
     } else {
+      updateRemainingTime(id, 0);
       newSet.add(id);
       setSelectedTodos(newSet);
     }
@@ -118,11 +137,11 @@ export default function Todo({ navigation }) {
           {todos.map((todo) => (
             <DropShadow style={[styles.shadow, styles.todoItem]}>
               { /* TODO: add a pressable here for editing the todo */ }
-              <Pressable onPress={() => selectTodo(todo.task_id)} style={styles.todoPressWrapper}>
+              <Pressable onPress={() => selectTodo(todo.task_id, todo.total_time)} style={styles.todoPressWrapper}>
                 {
                   selectedTodos.has(todo.task_id)
-                    ? <View style={styles.uncheckedCircle} />
-                    : <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
+                    ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
+                    : <View style={styles.uncheckedCircle} />
                 }
               </Pressable>
               <Text style={styles.todoItemTitle}>{todo.title}</Text>
