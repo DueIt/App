@@ -60,7 +60,7 @@ export default function Preferences({ navigation }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getEvents();
+      const data = await getCalendars();
       return data
     }
     fetchData().then((calendars) => {
@@ -137,7 +137,7 @@ export default function Preferences({ navigation }) {
     }
   }
 
-  async function getEvents(){
+  async function getCalendars(){
     setError('');
     const jwt = await SInfo.getItem('jwt', {
       sharedPreferencesName: 'dueItPrefs',
@@ -161,6 +161,33 @@ export default function Preferences({ navigation }) {
       setError(`There has been a problem with login: ${curError.message}`);
     });
     return cals
+  }
+
+  async function getGoogleEvents(calID){
+    setError('');
+    const jwt = await SInfo.getItem('jwt', {
+      sharedPreferencesName: 'dueItPrefs',
+      keychainService: 'dueItAppKeychain',
+    }); 
+    cals = await fetch(`${URL}/getrecentevents`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Token': jwt,
+        'CalID': calID
+      },
+    }).then((res) => res.json())
+    .then((data) => {
+      if (!('events' in data)) {
+        setError('Sorry, there was a response issue with google events. Please try again.');
+      }
+      console.log(data['events']);
+      return data['events']
+    }).catch((curError) => {
+      setError(`There has been a problem with login: ${curError.message}`);
+    });
+    return events
   }
 
   function selectPriority(value) {
@@ -261,11 +288,8 @@ export default function Preferences({ navigation }) {
               );
             })}
             {/*  */}
-            <Pressable
-            style={styles.doneButton}
-            onPress={getEvents}
-          ><Text style={styles.doneButtonText}>Get Calendars</Text></Pressable>
           </View>
+          
 
           <DropShadow
             style={[styles.shadow, styles.doneButtonWrapper]}
