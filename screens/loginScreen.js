@@ -32,10 +32,10 @@ export default function Login({ navigation }) {
         },
         body: JSON.stringify(
           {
-            'email' : email,
-            'password' : password
-          }
-        )
+            email,
+            password,
+          },
+        ),
       }).then((res) => {
         if (res.status === 401) {
           setError('Invalid login credentials.');
@@ -53,7 +53,7 @@ export default function Login({ navigation }) {
                 const savingJWT = await SInfo.setItem('jwt', jwt, {
                   sharedPreferencesName: 'dueItPrefs',
                   keychainService: 'dueItAppKeychain',
-                }); 
+                });
                 signIn({ token: jwt });
               }
             })
