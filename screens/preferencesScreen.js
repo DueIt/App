@@ -19,6 +19,7 @@ import SInfo from 'react-native-sensitive-info';
 
 export default function Preferences({ navigation }) {
   const [hasCalPermission, setHasCalPermission] = useState(false);
+  const [hasGooglePermission, setHasGooglePermission] = useState(false);
   const [availableCalendars, setAvailableCalendars] = useState([]);
   const [selectedCalendars, setSelectedCalendars] = useState(new Set());
   const [priorities, setPriorities] = useState([]);
@@ -59,20 +60,22 @@ export default function Preferences({ navigation }) {
   }, [hasCalPermission]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getCalendars();
-      return data
-    }
-    fetchData().then((calendars) => {
-      console.log(calendars)
-      calendars.forEach((element) => {
-        setAvailableGoogleCalendars(calendars);
+    if (hasGooglePermission) {
+      const fetchData = async () => {
+        const data = await getCalendars();
+        return data
+      }
+      fetchData().then((calendars) => {
+        console.log(calendars)
+        calendars.forEach((element) => {
+          setAvailableGoogleCalendars(calendars);
+        });
+      })
+      .catch((curError) => {
+        console.log(`There has been a problem with login: ${curError.message}`);
       });
-    })
-    .catch((curError) => {
-      console.log(`There has been a problem with login: ${curError.message}`);
-    });
-  }, []);
+    }
+  }, [hasGooglePermission]);
 
   function getToken() {
     const tokens= {};
@@ -288,6 +291,12 @@ export default function Preferences({ navigation }) {
               );
             })}
             {/*  */}
+            <Pressable
+              style={() => [styles.doneButton, hasGooglePermission ? styles.hidden : null]}
+              onPress={() => setHasGooglePermission(true)}
+            >
+              <Text style={styles.doneButtonText}>Sign-in to Google Calendar</Text>
+            </Pressable>
           </View>
           
 

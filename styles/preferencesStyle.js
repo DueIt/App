@@ -118,6 +118,10 @@ newItemCard: {
     opacity: 0.8,
   },
 
+  hidden: {
+    display: 'none',
+  },
+
   disabled: {
     opacity: 0.5,
   },

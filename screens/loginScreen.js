@@ -119,7 +119,7 @@ export default function Login({ navigation }) {
         >
           <Text style={styles.loginButtonText}>Sign In</Text>
         </Pressable>
-        <Pressable 
+        {/* <Pressable 
         style={({ pressed }) => [styles.loginButton,
           pressed ? styles.pressed : null]}
         onPress={() =>  {
@@ -198,7 +198,7 @@ export default function Login({ navigation }) {
         }}
         >
           <Text style={styles.loginButtonText}>Sign in with Google</Text>
-        </Pressable>
+        </Pressable> */}
         <View style={styles.signUpButton}>
           <Pressable style={({ pressed }) => [pressed ? styles.pressed : null]} onPress={() => navigation.navigate('Signup')}>
             <Text style={styles.signUpButtonText}>Don't have an account? Sign Up</Text>
