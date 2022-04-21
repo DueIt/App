@@ -12,6 +12,7 @@ import {
 import SInfo from 'react-native-sensitive-info';
 import Calendar from './screens/calendarScreen';
 import Todo from './screens/todoScreen';
+import Completed from './screens/completedScreen';
 import Settings from './screens/preferencesScreen';
 import AddTask from './screens/addTask';
 import Login from './screens/loginScreen';
@@ -21,6 +22,7 @@ const Tab = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const CalendarStack = createStackNavigator();
 const TodoStack = createStackNavigator();
+const CompletedStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
 export const AuthContext = React.createContext();
 
@@ -48,7 +50,24 @@ function TodoNav() {
     >
       <TodoStack.Screen name="Todo" component={Todo} />
       <TodoStack.Screen name="Settings" component={Settings} />
+      <TodoStack.Screen name="Completed" component={Completed}/>
     </TodoStack.Navigator>
+  );
+}
+
+function CompletedNav() {
+  return (
+    <CompletedStack.Navigator screenOptions={{
+      headerShown: false,
+      animationEnabled: false,
+      cardStyle: { backgroundColor: 'white' },
+    }}
+    >
+      <CompletedStack.Screen name="Completed" component={Completed} />
+      <CompletedStack.Screen name="Settings" component={Settings} />
+      <TodoStack.Screen name="Todo" component={Todo} />
+
+    </CompletedStack.Navigator>
   );
 }
 

@@ -5,7 +5,7 @@ import {
 import DropShadow from 'react-native-drop-shadow';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck, faGear, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { styles } from '../styles/todoStyle';
+import { styles } from '../styles/completedStyle';
 import { createStackNavigator, StackView } from '@react-navigation/stack';
 import SInfo from 'react-native-sensitive-info';
 import { BlurView } from '@react-native-community/blur';
@@ -13,8 +13,8 @@ import { BlurView } from '@react-native-community/blur';
 import { URL } from '../setup';
 import { AuthContext } from '../App';
 
-export default function Todo({ navigation }) {
-  //This listener reloads the api call for getTasks when the todo screen is opened so that the list is up to date
+export default function Completed({ navigation }) {
+  //This listener reloads the api call for getTasks when the completed screen is opened so that the list is up to date
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getTasks()
@@ -24,8 +24,8 @@ export default function Todo({ navigation }) {
   }, [navigation]);
 
 
-  const [todos, setTodos] = useState([]);
-  const [selectedTodos, setSelectedTodos] = useState(new Set());
+  const [completeds, setcompleteds] = useState([]);
+  const [selectedcompleteds, setSelectedcompleteds] = useState(new Set());
   const changeAccomplishSetting = () => setAccomplished(previousState => !previousState);
   const [accomplished, setAccomplished] = useState(false);
   const [error, setError] = useState('');
@@ -37,7 +37,7 @@ export default function Todo({ navigation }) {
   const { signOut } = React.useContext(AuthContext);
 
 
-  function closeTodo() {
+  function closecompleted() {
     setSelectedIndex(-1);
   }
 
@@ -55,7 +55,7 @@ export default function Todo({ navigation }) {
     try {
       const response = await fetch(`${URL}/get-tasks`, obj);
       const json = await response.json();
-      setTodos(json.tasks);
+      setcompleteds(json.tasks);
     } catch (error) {
       console.log(error);
     }
@@ -114,16 +114,16 @@ export default function Todo({ navigation }) {
     return `${time} m`;
   }
 
-  function selectTodo(id, total_time) {
-    const newSet = new Set(selectedTodos);
+  function selectcompleted(id, total_time) {
+    const newSet = new Set(selectedcompleteds);
     if (newSet.has(id)) {
       updateRemainingTime(id, total_time);
       newSet.delete(id);
-      setSelectedTodos(newSet);
+      setSelectedcompleteds(newSet);
     } else {
       updateRemainingTime(id, 0);
       newSet.add(id);
-      setSelectedTodos(newSet);
+      setSelectedcompleteds(newSet);
     }
   }
 
@@ -131,11 +131,11 @@ export default function Todo({ navigation }) {
     navigation.navigate("Settings");
   }
 
-  function todoPress(index, offset) {
+  function completedPress(index, offset) {
     if (selectedIndex === index) {
       setSelectedIndex(-1);
     } else {
-      // const event = todos[index];
+      // const event = completeds[index];
       // const min = (Date.parse(event.end) - Date.parse(event.start)) / 1000 / 60;
       // setTimeDone(min.toString());
       setSelectedIndex(index);
@@ -155,8 +155,8 @@ export default function Todo({ navigation }) {
     return { top: 9 };
   }
 
-  function completedNavigate() {
-    navigation.navigate("Completed");
+  function todoNavigate() {
+    navigation.navigate("Todo");
   }
 
   return (
@@ -166,30 +166,30 @@ export default function Todo({ navigation }) {
         scrollEnabled={selectedIndex === -1}
       >
         <View style={styles.row}>
-          <Pressable onPress={() => completedNavigate()}>
-            <FontAwesomeIcon icon={faCheckSquare} style={styles.settings} size={24} />
+          <Pressable onPress={() => todoNavigate()}>
+            <FontAwesomeIcon icon={faCheckSquare} style={styles.checkImage} size={24} />
           </Pressable>
-          <Text style={styles.title}>{accomplished == false ? "To-Do's" : "Completed"}</Text>
+          <Text style={styles.title}>Completed</Text>
           <Pressable onPress={settingsNavigate}>
             <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
           </Pressable>
         </View>
         <View style={styles.container}>
-          {todos.map((todo, i) => (
-            todo.total_time !== 0?
-            <Pressable onPress={() => todoPress(i, 9)}>
-              <DropShadow style={[styles.shadow, styles.todoItem]}>
-                <Pressable onPress={() => selectTodo(todo.task_id, todo.total_time)} style={styles.todoPressWrapper}>
+          {completeds.map((completed, i) => (
+            completed.total_time == 0?
+            <Pressable onPress={() => completedPress(i, 9)}>
+              <DropShadow style={[styles.shadow, styles.completedItem]}>
+                <Pressable onPress={() => selectcompleted(completed.task_id, completed.total_time)} style={styles.completedPressWrapper}>
                   {
-                    selectedTodos.has(todo.task_id)
+                    selectedcompleteds.has(completed.task_id)
                       ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
                       : <View style={styles.uncheckedCircle} />
                   }
                 </Pressable>
-                <Text style={styles.todoItemTitle}>{todo.title}</Text>
-                <View style={styles.todoInfoWrapper}>
-                  <Text style={styles.todoTimeText}>{timeFromMin(todo.total_time)}</Text>
-                  <Text style={styles.todoDueText}>{`Due ${dateFromString(todo.due_date)}`}</Text>
+                <Text style={styles.completedItemTitle}>{completed.title}</Text>
+                <View style={styles.completedInfoWrapper}>
+                  <Text style={styles.completedTimeText}>{timeFromMin(completed.total_time)}</Text>
+                  <Text style={styles.completedDueText}>{`Due ${dateFromString(completed.due_date)}`}</Text>
                 </View>
               </DropShadow>
             </Pressable>
@@ -199,7 +199,7 @@ export default function Todo({ navigation }) {
             && (
               <Pressable
                 style={[styles.blur]}
-                onPress={() => closeTodo()}
+                onPress={() => closecompleted()}
               >
                 <BlurView
                   style={[styles.blur]}
@@ -212,23 +212,23 @@ export default function Todo({ navigation }) {
             && (
               <View style={styles.absolute}>
                 
-              <Pressable onPress={() => todoPress(selectedIndex, 9)}>
-                <DropShadow style={[styles.shadow, styles.todoItemPopup]}>
-                  <Pressable onPress={() => selectTodo(todos[selectedIndex].task_id, todos[selectedIndex].total_time)} style={styles.todoPressWrapper}>
+              <Pressable onPress={() => completedPress(selectedIndex, 9)}>
+                <DropShadow style={[styles.shadow, styles.completedItemPopup]}>
+                  <Pressable onPress={() => selectcompleted(completeds[selectedIndex].task_id, completeds[selectedIndex].total_time)} style={styles.completedPressWrapper}>
                     {
-                      selectedTodos.has(todos[selectedIndex].task_id)
+                      selectedcompleteds.has(completeds[selectedIndex].task_id)
                         ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
                         : <View style={styles.uncheckedCircle} />
                     }
                   </Pressable>
-                  <Text style={styles.todoItemTitle}>{todos[selectedIndex].title}</Text>
-                  <View style={styles.todoInfoWrapper}>
-                    <Text style={styles.todoTimeText}>{timeFromMin(todos[selectedIndex].total_time)}</Text>
-                    <Text style={styles.todoDueText}>{`Due ${dateFromString(todos[selectedIndex].due_date)}`}</Text>
+                  <Text style={styles.completedItemTitle}>{completeds[selectedIndex].title}</Text>
+                  <View style={styles.completedInfoWrapper}>
+                    <Text style={styles.completedTimeText}>{timeFromMin(completeds[selectedIndex].total_time)}</Text>
+                    <Text style={styles.completedDueText}>{`Due ${dateFromString(completeds[selectedIndex].due_date)}`}</Text>
                   </View>
                 </DropShadow>
               </Pressable>
-              <DropShadow style={[styles.shadow, styles.todoPopup, calcStyle()]}>
+              <DropShadow style={[styles.shadow, styles.completedPopup, calcStyle()]}>
                 <View style={styles.popupButtonWrapper}>
                   <Pressable
                     style={({ pressed }) => [styles.popupButton,

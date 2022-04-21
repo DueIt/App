@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
 
-  todoItem: {
+  completedItem: {
     borderRadius: 20,
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -62,21 +62,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  todoItemTitle: {
+  completedItemTitle: {
     fontSize: 18,
     fontWeight: '500',
     flex: 1,
   },
 
-  todoInfoWrapper: {
+  completedInfoWrapper: {
     flexDirection: 'column',
     alignItems: 'center',
   },
 
-  todoPressableWrapper: {
+  completedPressableWrapper: {
     flexDirection: 'row',
   },
-  todoItemPopup: {
+  completedItemPopup: {
     borderRadius: 20,
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
 
-  todoPopup: {
+  completedPopup: {
     width: '70%',
     backgroundColor: 'white',
     //position: 'absolute',
@@ -95,12 +95,12 @@ const styles = StyleSheet.create({
   },
 
 
-  todoTimeText: {
+  completedTimeText: {
     fontSize: 16,
     fontWeight: '500',
   },
 
-  todoDueText: {
+  completedDueText: {
     fontSize: 14,
     fontWeight: '400',
   },
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
 
-  todoSubtitle: {
+  completedSubtitle: {
     color: 'white',
     marginLeft: 10,
   },
