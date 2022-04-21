@@ -66,7 +66,6 @@ export default function Preferences({ navigation }) {
         return data
       }
       fetchData().then((calendars) => {
-        console.log(calendars)
         calendars.forEach((element) => {
           setAvailableGoogleCalendars(calendars);
         });
@@ -76,26 +75,6 @@ export default function Preferences({ navigation }) {
       });
     }
   }, [hasGooglePermission]);
-
-  function getToken() {
-    const tokens= {};
-    const curr = '';
-    isSignedIn = async () => {
-      const isSignedIn = await GoogleSignin.isSignedIn();
-      this.setState({ isLoginScreenPresented: !isSignedIn });
-      return isSignedIn
-    };
-    console.log(isSignedIn)
-    getCurrentUser = async () => {
-      const currentUser = await GoogleSignin.getCurrentUser();
-      this.setState({ currentUser });
-      console.log(currentUser.getTokens())
-      curr = currentUser;
-      tokens = currentUser.getTokens()
-    };
-    console.log(JSON.stringify(this.currentUser));
-    console.log(JSON.stringify(tokens));
-  }
 
   function submitCalendarChange() {
     // const ids = ['BCB1FE69-C5AA-4434-A531-8717FEAD5E78'];
@@ -158,7 +137,6 @@ export default function Preferences({ navigation }) {
       if (!('calendars' in data)) {
         setError('Sorry, there was a response issue with calendars. Please try again.');
       }
-      console.log(data['calendars']);
       return data['calendars']
     }).catch((curError) => {
       setError(`There has been a problem with login: ${curError.message}`);
@@ -185,7 +163,6 @@ export default function Preferences({ navigation }) {
       if (!('events' in data)) {
         setError('Sorry, there was a response issue with google events. Please try again.');
       }
-      console.log(data['events']);
       return data['events']
     }).catch((curError) => {
       setError(`There has been a problem with login: ${curError.message}`);
