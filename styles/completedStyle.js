@@ -2,11 +2,12 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scroll: {
-    overflow: 'visible',
+    overflow: 'hidden',
   },
 
   container: {
     marginHorizontal: 25,
+    marginBottom: 15,
     position: 'relative',
   },
 
@@ -66,6 +67,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     flex: 1,
+  },
+
+    weekTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    textAlign: 'center'
+    //flex: 1,
   },
 
   completedInfoWrapper: {
@@ -210,6 +218,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 7,
   },
+  pressedButton: {
+    backgroundColor: '#39A4FF',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 15,
+  },
+
+  notPressedButton: {
+    //backgroundColor: 'white',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 15,
+  },
+
 });
 
 // eslint-disable-next-line import/prefer-default-export

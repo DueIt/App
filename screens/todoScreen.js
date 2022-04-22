@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Text, View, SafeAreaView, ScrollView, Pressable, TextInput
 } from 'react-native';
@@ -31,7 +31,7 @@ export default function Todo({ navigation }) {
   const [error, setError] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [timeDone, setTimeDone] = useState("0");
-  const [ref, setRef] = useState(null);
+  const scrollViewRef = useRef(null);
 
 
   const { signOut } = React.useContext(AuthContext);
@@ -139,14 +139,14 @@ export default function Todo({ navigation }) {
       // const min = (Date.parse(event.end) - Date.parse(event.start)) / 1000 / 60;
       // setTimeDone(min.toString());
       setSelectedIndex(index);
-      scrollHandler(9);
+      scrollHandler(9*index);
     }
   }
 
   function scrollHandler(offset) {
-    ref.scrollTo({
-      x: 0,
-      y: offset,
+    scrollViewRef.current.scrollTo({
+      x: 50,
+      y: -offset,
       animated: true,
     });
   }
@@ -160,9 +160,8 @@ export default function Todo({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.scroll}>
-      <ScrollView style={styles.scroll} ref={(ref) => {
-        setRef(ref);}}
+    <SafeAreaView style={styles.dropDown}>
+      <ScrollView style={styles.scroll} ref = {scrollViewRef}
         scrollEnabled={selectedIndex === -1}
       >
         <View style={styles.row}>

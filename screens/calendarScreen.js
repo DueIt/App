@@ -231,7 +231,7 @@ export default function Calendar({ navigation }) {
     ref.scrollTo({
       x: 0,
       y: offset,
-      animated: true,
+      //animated: true,
     });
   }
 
