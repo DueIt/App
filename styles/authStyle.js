@@ -24,8 +24,9 @@ const styles = StyleSheet.create({
   },
 
   logoText: {
-    fontSize: 50,
+    fontSize: 58,
     alignSelf: 'center',
+    fontWeight: 'bold',
   },
 
   pressed: {

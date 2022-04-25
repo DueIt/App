@@ -122,7 +122,7 @@ function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {state.userToken === null
+        {state.userToken == null
           ? (
             <AuthStack.Navigator screenOptions={{
               headerShown: false,
@@ -161,7 +161,7 @@ function App() {
               <Tab.Screen name="TodoNav" component={TodoNav} />
               <Tab.Screen name="AddTask" component={AddTask} />
               <Tab.Screen name="CalendarNav" component={CalendarNav} />
-              <Tab.Screen name="SettingsNav" component={SettingsNav} />
+              {/* <Tab.Screen name="SettingsNav" component={SettingsNav} /> */}
             </Tab.Navigator>
           )}
       </NavigationContainer>

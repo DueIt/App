@@ -7,8 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck, faGear, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { styles } from '../styles/todoStyle';
 import { createStackNavigator } from '@react-navigation/stack';
+import SInfo from 'react-native-sensitive-info';
 
-
+import { URL } from '../setup';
 import { AuthContext } from '../App';
 
 export default function Todo({ navigation }) {
@@ -21,7 +22,32 @@ export default function Todo({ navigation }) {
 
   const { signOut } = React.useContext(AuthContext);
 
+  const getTasks = async () => {
+    const jwt = await SInfo.getItem('jwt', {
+      sharedPreferencesName: 'dueItPrefs',
+      keychainService: 'dueItAppKeychain',
+    }); 
+    var obj = {
+      method: 'GET',
+      headers: {
+        'Token': jwt
+      }
+    }
+    try {
+      const response = await fetch(`${URL}/get-tasks`, obj);
+      const json = await response.json();
+      setTodos(json.tasks);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    getTasks();
+  },[]);
+
+
+ /*  useEffect(() => {
     const testTodos = {
       items: [
         {
@@ -39,7 +65,7 @@ export default function Todo({ navigation }) {
       ],
     };
     setTodos(testTodos.items);
-  }, []);
+  }, []); */
 
   function dateFromString(date) {
     const fDate = new Date(date);
@@ -89,24 +115,21 @@ export default function Todo({ navigation }) {
           {todos.map((todo) => (
             <DropShadow style={[styles.shadow, styles.todoItem]}>
               { /* TODO: add a pressable here for editing the todo */ }
-              <Pressable onPress={() => selectTodo(todo.id)} style={styles.todoPressWrapper}>
+              <Pressable onPress={() => selectTodo(todo.task_id)} style={styles.todoPressWrapper}>
                 {
-                  selectedTodos.has(todo.id)
+                  selectedTodos.has(todo.task_id)
                     ? <View style={styles.uncheckedCircle} />
                     : <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
                 }
               </Pressable>
               <Text style={styles.todoItemTitle}>{todo.title}</Text>
               <View style={styles.todoInfoWrapper}>
-                <Text style={styles.todoTimeText}>{timeFromMin(todo.time)}</Text>
-                <Text style={styles.todoDueText}>{`Due ${dateFromString(todo.due)}`}</Text>
+                <Text style={styles.todoTimeText}>{timeFromMin(todo.total_time)}</Text>
+                <Text style={styles.todoDueText}>{`Due ${dateFromString(todo.due_date)}`}</Text>
               </View>
             </DropShadow>
           ))}
         </View>
-        <Pressable onPress={() => signOut()}>
-          <Text>Logout</Text>
-        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );

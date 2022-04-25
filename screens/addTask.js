@@ -6,7 +6,9 @@ import DropShadow from 'react-native-drop-shadow';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { styles } from '../styles/addTaskStyle';
-import DatePicker from 'react-native-date-picker'
+import DatePicker from 'react-native-date-picker';
+import { URL } from '../setup';
+import SInfo from 'react-native-sensitive-info';
 
 export default function AddTask({ navigation }) {
     const [selectedHours, setSelectedHours] = useState("0");
@@ -21,7 +23,45 @@ export default function AddTask({ navigation }) {
     const [importance, setImportance] = useState();
     const [difficulty, setDifficulty] = useState();
     const [category, setCategory] = useState();
+    const [error, setError] = useState('');
 
+    async function addTask() {
+        const jwt = await SInfo.getItem('jwt', {
+            sharedPreferencesName: 'dueItPrefs',
+            keychainService: 'dueItAppKeychain',
+          }); 
+          var time = parseInt(selectedHours) * 60 + parseInt(selectedMins);
+          var obj = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Token': jwt
+            },
+            body: JSON.stringify(
+                {
+                  'title' : title,
+                  'total_time' : time,
+                  'remaining_time' : time,
+                  'due_date' : date,
+                  'importance' : importance,
+                  'difficulty' : difficulty,
+                  'location' : location
+                }
+              )
+          }
+          fetch(`${URL}/add-tasks`, obj).then((res) => {
+            if (res.status === 401) {
+              setError('Invalid auth token.');
+            } else if (res.status === 500) {
+              setError('Sorry, there was a server error. Please try again.');
+            } else if (res.status !== 200) {
+              setError('Something went wrong.');
+            }
+          }).catch((curError) => {
+            console.log(`There was a problem connecting: ${curError.message}`);
+          });
+    }
 
     function dateFromString(date) {
         const fDate = new Date(date);
@@ -192,7 +232,7 @@ export default function AddTask({ navigation }) {
                             </View>
                             <View style={styles.container}>
                                 <DropShadow style={[styles.shadow, styles.doneButtonWrapper]}>
-                                <Pressable style={styles.doneButton}>
+                                <Pressable style={styles.doneButton} onPress={addTask}>
                                 { /* TODO: save to-do for the user */ }
                                             <Text style={styles.text}>Create Item</Text>
                                         </Pressable>

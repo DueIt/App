@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 
   scroll: {
-    overflow: 'visible',
+    overflow: 'hidden',
   },
 
   calendarItemContainer: {
@@ -22,6 +22,14 @@ const styles = StyleSheet.create({
 
   calendarItem: {
     // backgroundColor: 'blue',
+  },
+
+  importText: {
+    flex: 1,
+    //height: 20,
+    color: "#39A1FF",
+    fontWeight: "bold",
+    fontSize: 18,
   },
 
   calendarItemText: {
@@ -54,14 +62,29 @@ newItemCard: {
 
   calendarItemLast: {
     borderBottomWidth: 0,
+    paddingTop: 17,
+    paddingBottom: 8,
+    //height: 110,
+    //marginHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   container: {
     width: '85%',
-
     alignItems: 'center',
     marginHorizontal: 25,
   },
+
+
+  setContainer: {
+    width: '85%',
+    alignItems: 'center',
+    marginHorizontal: 25,
+    paddingTop: 25,
+    
+  },
+
 
   doneButtonWrapper: {
     width: '85%',
@@ -125,6 +148,23 @@ newItemCard: {
   disabled: {
     opacity: 0.5,
   },
+  uncheckedCircle: {
+    width: 20,
+    height: 20,
+    borderColor: '#39A4FF',
+    borderWidth: 2,
+    borderRadius: 20,
+   // marginRight: 15,
+  },
+
+  exitButton: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#FF0000',
+    textAlign: 'center',
+    padding: 18,
+  },
+
 
   layerContainer: {
     borderRadius: 20,
@@ -139,6 +179,45 @@ newItemCard: {
     position: 'relative',
     color: 'white',
     height:100,
+    overflow: "hidden",
+  },
+
+  layerContainer2: {
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    //padding: 18,
+    width: '100%',
+    position: 'relative',
+    color: 'white',
+    height:100,
+    overflow: "hidden",
+  },
+
+  datePickerStyle: {
+    height:110,
+
+    width: 150,
+    transform: [
+        { scaleX: 0.9 }, 
+        { scaleY: 0.9 },
+     ],
+  },
+
+  columnLayerContainer: {
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+    flexDirection: 'column',
+    alignItems: 'center',
+    //justifyContent: "space-between",
+    //padding: 18,
+    marginBottom: 20,
+    width: '100%',
+
+    position: 'relative',
+    color: 'white',
+    //height:100,
     overflow: "hidden",
   },
 });
