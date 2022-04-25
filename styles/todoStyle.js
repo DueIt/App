@@ -2,10 +2,14 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scroll: {
-    overflow: 'hidden',
+    overflow: 'visible',
+    height: '100%',
+    //position: 'absolute'
+    //flex: 1
   },
   dropDown: {
-    overflow: 'visible'
+    overflow: 'visible',
+    //flex: 1
   },
 
   container: {
@@ -21,6 +25,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginTop: 10,
 
+  },
+
+  spanBottom: {
+    width: '100%',
+    flexDirection: 'row'
   },
 
   absolute: {
@@ -212,6 +221,11 @@ const styles = StyleSheet.create({
     color: '#FF0000',
     textAlign: 'center',
     padding: 7,
+  },
+  fadingContainer: {
+    //paddingVertical: 5,
+    //paddingHorizontal: 25,
+    //backgroundColor: "lightseagreen"
   },
 });
 

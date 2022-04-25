@@ -16,7 +16,7 @@ export default function AddTask({ navigation }) {
     const hours = ["0", "1", "2", "3", "4", "5"];
     const mins = Array.from(Array(60).keys()).map(String);
     const [date, setEndDate] = useState(new Date());
-    const [title, onChangeTitle] = React.useState("New Item");
+    const [title, onChangeTitle] = React.useState("New Title");
     const [location, onChangeLocation] = React.useState("");
     const [chunk, setChunking] = useState(false);
     const toggleChunking = () => setChunking(previousState => !previousState);
@@ -64,7 +64,8 @@ export default function AddTask({ navigation }) {
     }
 
     function clearItem() {
-        onChangeTitle("New Item"),
+        onChangeTitle(""),
+
         setEndDate(new Date()),
         setSelectedHours("0"),
         setSelectedMins("30"),
@@ -128,6 +129,7 @@ export default function AddTask({ navigation }) {
                                         onChangeText={onChangeTitle}
                                         placeholder="Title"
                                         keyboardType="ascii-capable"
+                                        value = {title}
                                     />
                                 </DropShadow>
                             </View>
@@ -243,6 +245,7 @@ export default function AddTask({ navigation }) {
                                         onChangeText={onChangeLocation}
                                         placeholder="Location/Url"
                                         keyboardType="ascii-capable"
+                                        value = {location}
                                     />
                                 </DropShadow>
                             </View>
@@ -256,7 +259,6 @@ export default function AddTask({ navigation }) {
                                 </DropShadow>
                             </View>
                             <Pressable onPress={clearItem}>
-                            { /* TODO: delete this to-do from user */ }
                                             <Text style={styles.exitButton}>Clear Item</Text>
                                         </Pressable>
                         </ScrollView>

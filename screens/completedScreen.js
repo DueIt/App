@@ -164,8 +164,8 @@ export default function Completed({ navigation }) {
                     </Pressable>
                 </View>
                 <View style={[styles.row, styles.container]}>
-                    <Pressable style={timeframe == "This Week" ? styles.pressedButton : styles.notPressedButton}
-                        onPress={() => setTimeframe('This Week')} >
+                    <Pressable style={timeframe == "Week" ? styles.pressedButton : styles.notPressedButton}
+                        onPress={() => setTimeframe('Week')} >
                         <Text style = {styles.weekTitle}>Week</Text>
                     </Pressable>
                     <Pressable style={timeframe == "Month" ? styles.pressedButton : styles.notPressedButton}
@@ -180,7 +180,7 @@ export default function Completed({ navigation }) {
 
                 <View style={styles.container}>
                     {completeds.map((completed, i) => (
-                        completed.total_time == 0 ?
+                        completed.remaining_time == 0 ?
                             <Pressable onPress={() => completedPress(i, 9)}>
                                 <DropShadow style={[styles.shadow, styles.completedItem]}>
                                     <Pressable onPress={() => selectcompleted(completed.task_id, completed.total_time)} style={styles.completedPressWrapper}>

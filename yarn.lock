@@ -5913,6 +5913,13 @@
   "resolved" "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
   "version" "1.2.1"
 
+"react-addons-update@^15.6.3":
+  "integrity" "sha512-wBkjgx5cR0XTjZEz5jl2kScChrjI9T7rWVdaM0dLiIdHSgeHycLRdHPPiTgKk7vK18Od4rXmLJv91qofBXlE0A=="
+  "resolved" "https://registry.npmjs.org/react-addons-update/-/react-addons-update-15.6.3.tgz"
+  "version" "15.6.3"
+  dependencies:
+    "object-assign" "^4.1.0"
+
 "react-devtools-core@^4.6.0":
   "integrity" "sha512-KkzneT1LczFtebbTJlvRphIRvzuHLhI9ghfrseVv9ktBs+l2cXy8Svw5U16lzQnwU9okVEcURmGPgH79WWrlaw=="
   "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.23.0.tgz"
@@ -5959,6 +5966,11 @@
     "jscodeshift" "^0.11.0"
     "nullthrows" "^1.1.1"
 
+"react-native-confetti-cannon@^1.5.2":
+  "integrity" "sha512-IZuWjlW7QsdxEGNnvpD6W+7iKCCQhnd5BvuNvMtirU7Nxm8WS2N6LPGMBz1ZYDuusG+GRZkoXXTNCdoAAGpCTg=="
+  "resolved" "https://registry.npmjs.org/react-native-confetti-cannon/-/react-native-confetti-cannon-1.5.2.tgz"
+  "version" "1.5.2"
+
 "react-native-date-picker@^4.2.0":
   "integrity" "sha512-IfbK7Eh5By8rdjiu/pvqLF8NkFX9pVsY7Vn6+MkLSiFcLIGFd7NaENRJKl75/xNZuY5CkIiRVksS9abEl/II8g=="
   "resolved" "https://registry.npmjs.org/react-native-date-picker/-/react-native-date-picker-4.2.0.tgz"
@@ -5975,6 +5987,11 @@
   "integrity" "sha512-LUctVMAWiDir1X0WrFX1784psvqzBXRxRujYbvlvKz1Owa6cujrVN98rP356hIXFzX19E7SkbA942fGfMvoEWQ=="
   "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.3.0.tgz"
   "version" "5.3.0"
+
+"react-native-fade-in-out@^1.0.6":
+  "integrity" "sha512-rZxUEmiu+otPreKdxlv3piJvGe8WZt5zMyvZw0YXVV2LZdvaj6yqZOySDdBWt8zsGb4tIUR6vOC035f8SOJirw=="
+  "resolved" "https://registry.npmjs.org/react-native-fade-in-out/-/react-native-fade-in-out-1.0.6.tgz"
+  "version" "1.0.6"
 
 "react-native-gesture-handler@^2.2.0", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-WF25CNgn164bF9juW8N/jICIFXiEOgsxCuY7DRlnFdiH5ZfvMYtZHRC+zr1fFMap2ty1f2HWDQNVVSo0FDXP4A=="
@@ -5993,6 +6010,11 @@
   "version" "0.0.3"
   dependencies:
     "react-native-codegen" "*"
+
+"react-native-haptic-feedback@^1.13.1":
+  "integrity" "sha512-aP4AhnxMPnlMEeG0ZVit5+ji85mhzvqQjWkGuOpNwjlJuWJ7IkUvLv/H32+S+Kb41eAl78z9k3FG9waPmLv/IQ=="
+  "resolved" "https://registry.npmjs.org/react-native-haptic-feedback/-/react-native-haptic-feedback-1.13.1.tgz"
+  "version" "1.13.1"
 
 "react-native-material-buttons@^0.5.0":
   "integrity" "sha1-qys+P8P1AMpxP1Hp11l4r/YCFSo="

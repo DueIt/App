@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, setState } from 'react';
 import {
-  Text, View, SafeAreaView, ScrollView, Pressable, TextInput
+  Text, View, SafeAreaView, ScrollView, Pressable, TextInput, Dimensions
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -9,15 +9,28 @@ import { styles } from '../styles/todoStyle';
 import { createStackNavigator, StackView } from '@react-navigation/stack';
 import SInfo from 'react-native-sensitive-info';
 import { BlurView } from '@react-native-community/blur';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 import { URL } from '../setup';
 import { AuthContext } from '../App';
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import FadeInOut from 'react-native-fade-in-out';
+import update from 'react-addons-update';
+
+
+
+
+
+
+
+
+
 
 export default function Todo({ navigation }) {
   //This listener reloads the api call for getTasks when the todo screen is opened so that the list is up to date
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getTasks()
+      getTasks();
     });
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
@@ -25,6 +38,7 @@ export default function Todo({ navigation }) {
 
 
   const [todos, setTodos] = useState([]);
+  const [todosLength, setTodoLength] = useState(0);
   const [selectedTodos, setSelectedTodos] = useState(new Set());
   const changeAccomplishSetting = () => setAccomplished(previousState => !previousState);
   const [accomplished, setAccomplished] = useState(false);
@@ -32,9 +46,24 @@ export default function Todo({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [timeDone, setTimeDone] = useState("0");
   const scrollViewRef = useRef(null);
+  const [visible, setVisible] = useState(Array(todos.length).fill(true))
+  const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false
+  };
 
+  const toggleVisible = (index) => {
+    newState = Array(todosLength).fill(true);
+    newState[index] = false;
+    console.log(newState)
+    setVisible(newState)
+  }
 
   const { signOut } = React.useContext(AuthContext);
+
+  function explodeConfetti() {
+    this.explosion && this.explosion.start();
+  }
 
 
   function closeTodo() {
@@ -56,6 +85,9 @@ export default function Todo({ navigation }) {
       const response = await fetch(`${URL}/get-tasks`, obj);
       const json = await response.json();
       setTodos(json.tasks);
+      setTodoLength(todos.length+15);
+      setVisible(Array(todosLength).fill(true));
+
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +102,9 @@ export default function Todo({ navigation }) {
       sharedPreferencesName: 'dueItPrefs',
       keychainService: 'dueItAppKeychain',
     });
+    if (time < 0) {
+      time = 0
+    }
     var obj = {
       method: 'POST',
       headers: {
@@ -114,17 +149,29 @@ export default function Todo({ navigation }) {
     return `${time} m`;
   }
 
-  function selectTodo(id, total_time) {
+
+  function selectTodo(index, id, total_time) {
     const newSet = new Set(selectedTodos);
-    if (newSet.has(id)) {
-      updateRemainingTime(id, total_time);
-      newSet.delete(id);
-      setSelectedTodos(newSet);
-    } else {
+    // if (newSet.has(id)) {
+    //   updateRemainingTime(id, total_time);
+    //   newSet.delete(id);
+    //   setSelectedTodos(newSet);
+    // } else {
       updateRemainingTime(id, 0);
       newSet.add(id);
       setSelectedTodos(newSet);
-    }
+      explodeConfetti();
+      ReactNativeHapticFeedback.trigger("impactLight", options);
+      toggleVisible(index);
+      setTimeout(() => {
+        remainingTimeZero(index);
+        }, 500);
+    // }
+  }
+
+  function remainingTimeZero(index){
+    todos[index].remaining_time = 0;
+    setTodos(todos);
   }
 
   function settingsNavigate() {
@@ -143,6 +190,13 @@ export default function Todo({ navigation }) {
     }
   }
 
+  function updateTimePress(task_id, remaining_time){
+    updateRemainingTime(task_id, remaining_time);
+    ReactNativeHapticFeedback.trigger("impactLight", options);
+    setSelectedIndex(-1)
+    todos[selectedIndex].remaining_time = remaining_time;
+  }
+
   function scrollHandler(offset) {
     scrollViewRef.current.scrollTo({
       x: 50,
@@ -159,9 +213,21 @@ export default function Todo({ navigation }) {
     navigation.navigate("Completed");
   }
 
+  function getVisibleVal(i) {
+    if (visible == []) {
+      return true
+    } else if (visible.length < (i + 1)){
+      return true
+    } else {
+      return visible[i]
+    }
+  }
+
   return (
     <SafeAreaView style={styles.dropDown}>
-      <ScrollView style={styles.scroll} ref = {scrollViewRef}
+      <ScrollView style={styles.scroll} contentContainerStyle={{
+     growflex: 1
+  }} ref = {scrollViewRef}
         scrollEnabled={selectedIndex === -1}
       >
         <View style={styles.row}>
@@ -175,10 +241,12 @@ export default function Todo({ navigation }) {
         </View>
         <View style={styles.container}>
           {todos.map((todo, i) => (
-            todo.total_time !== 0?
+            todo.remaining_time !== 0?
+            <FadeInOut visible={getVisibleVal(i)}>
+
             <Pressable onPress={() => todoPress(i, 9)}>
               <DropShadow style={[styles.shadow, styles.todoItem]}>
-                <Pressable onPress={() => selectTodo(todo.task_id, todo.total_time)} style={styles.todoPressWrapper}>
+                <Pressable onPress={() => {selectTodo(i, todo.task_id, todo.remaining_time)}} style={styles.todoPressWrapper}>
                   {
                     selectedTodos.has(todo.task_id)
                       ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
@@ -187,11 +255,12 @@ export default function Todo({ navigation }) {
                 </Pressable>
                 <Text style={styles.todoItemTitle}>{todo.title}</Text>
                 <View style={styles.todoInfoWrapper}>
-                  <Text style={styles.todoTimeText}>{timeFromMin(todo.total_time)}</Text>
+                  <Text style={styles.todoTimeText}>{timeFromMin(todo.remaining_time)}</Text>
                   <Text style={styles.todoDueText}>{`Due ${dateFromString(todo.due_date)}`}</Text>
                 </View>
               </DropShadow>
             </Pressable>
+            </FadeInOut>
             : null
           ))}
           {selectedIndex !== -1
@@ -213,7 +282,7 @@ export default function Todo({ navigation }) {
                 
               <Pressable onPress={() => todoPress(selectedIndex, 9)}>
                 <DropShadow style={[styles.shadow, styles.todoItemPopup]}>
-                  <Pressable onPress={() => selectTodo(todos[selectedIndex].task_id, todos[selectedIndex].total_time)} style={styles.todoPressWrapper}>
+                  <Pressable onPress={() => {selectTodo(selectedIndex, todos[selectedIndex].task_id, todos[selectedIndex].total_time)}} style={styles.todoPressWrapper}>
                     {
                       selectedTodos.has(todos[selectedIndex].task_id)
                         ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
@@ -222,7 +291,7 @@ export default function Todo({ navigation }) {
                   </Pressable>
                   <Text style={styles.todoItemTitle}>{todos[selectedIndex].title}</Text>
                   <View style={styles.todoInfoWrapper}>
-                    <Text style={styles.todoTimeText}>{timeFromMin(todos[selectedIndex].total_time)}</Text>
+                    <Text style={styles.todoTimeText}>{timeFromMin(todos[selectedIndex].remaining_time)}</Text>
                     <Text style={styles.todoDueText}>{`Due ${dateFromString(todos[selectedIndex].due_date)}`}</Text>
                   </View>
                 </DropShadow>
@@ -233,7 +302,7 @@ export default function Todo({ navigation }) {
                     style={({ pressed }) => [styles.popupButton,
                     styles.completeButton,
                     pressed ? styles.pressed : null]}
-                    onPress={() => null}
+                    onPress={() => updateTimePress(todos[selectedIndex].task_id, todos[selectedIndex].remaining_time - timeDone)}
                   >
                     <Text style={[styles.popupButtonText]}>Update Time</Text>
                   </Pressable>
@@ -260,7 +329,14 @@ export default function Todo({ navigation }) {
             
             )}
         </View>
+        
       </ScrollView>
+      <ConfettiCannon
+        count={200}
+        origin={{x: 0, y: 0}}
+        autoStart={false}
+        ref={ref => (this.explosion = ref)}
+      />
     </SafeAreaView>
   );
 }

@@ -233,8 +233,8 @@ PODS:
     - RCTTypeSafety
     - React
     - ReactCommon/turbomodule/core
-  - react-native-sensitive-info (5.5.8):
-    - React
+  - react-native-sensitive-info (6.0.0-alpha.9):
+    - React-Core
   - React-perflogger (0.64.3)
   - React-RCTActionSheet (0.64.3):
     - React-Core/RCTActionSheetHeaders (= 0.64.3)
@@ -305,6 +305,8 @@ PODS:
     - React-Core
   - RNGestureHandler (2.2.0):
     - React-Core
+  - RNReactNativeHapticFeedback (1.13.1):
+    - React-Core
   - RNScreens (3.12.0):
     - React-Core
     - React-RCTImage
@@ -358,6 +360,7 @@ DEPENDENCIES:
   - RNCalendarEvents (from `../node_modules/react-native-calendar-events`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -453,6 +456,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReactNativeHapticFeedback:
+    :path: "../node_modules/react-native-haptic-feedback"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -489,7 +494,7 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-date-picker: d83ab9cccbc497642a93fdca783ae76ecd6b17b6
   react-native-safe-area-context: eec048ba481a7ec7b1bf9d7b7a78fb1103f4806d
-  react-native-sensitive-info: 400c6e3d27945e15c8cddb5b4b92233c85ee06f8
+  react-native-sensitive-info: d44e909d065f9c0e15734245e5dd6a24b82e3dcd
   React-perflogger: cc76a4254d19640f1d8ad1c66fdee800414b805c
   React-RCTActionSheet: 7448f049318d8d7e8a9a1ebb742ada721757eea8
   React-RCTAnimation: fb9b3fa1a4a9f5e6ab01b3368693ce69860ba76a
@@ -505,6 +510,7 @@ SPEC CHECKSUMS:
   RNCalendarEvents: 7e65eb4a94f53c1744d1e275f7fafcfaa619f7a3
   RNCAsyncStorage: b49b4e38a1548d03b74b30e558a1d18465b94be7
   RNGestureHandler: bf572f552ea324acd5b5464b8d30755b2d8c1de6
+  RNReactNativeHapticFeedback: 4085973f5a38b40d3c6793a3ee5724773eae045e
   RNScreens: 2559f98b0835103cbef3b26ba77fa61d4bb37ae7
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
