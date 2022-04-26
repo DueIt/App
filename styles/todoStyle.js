@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: '100%',
     width: '100%',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    //top: 0
   },
 
   pressed: {

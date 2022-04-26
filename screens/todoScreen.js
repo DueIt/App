@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, setState } from 'react';
 import {
-  Text, View, SafeAreaView, ScrollView, Pressable, TextInput, Dimensions
+  Text, View, SafeAreaView, ScrollView, Pressable, TextInput, forceUpdate
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -16,14 +16,6 @@ import { AuthContext } from '../App';
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import FadeInOut from 'react-native-fade-in-out';
 import update from 'react-addons-update';
-
-
-
-
-
-
-
-
 
 
 export default function Todo({ navigation }) {
@@ -45,7 +37,9 @@ export default function Todo({ navigation }) {
   const [error, setError] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [timeDone, setTimeDone] = useState("0");
-  const scrollViewRef = useRef(null);
+  const [todoLocations, setTodoLocations] = useState([]);
+
+  const scrollViewRef = useRef();
   const [visible, setVisible] = useState(Array(todos.length).fill(true))
   const options = {
     enableVibrateFallback: true,
@@ -165,13 +159,12 @@ export default function Todo({ navigation }) {
       toggleVisible(index);
       setTimeout(() => {
         remainingTimeZero(index);
-        }, 500);
+        }, 3000);
     // }
   }
 
   function remainingTimeZero(index){
-    todos[index].remaining_time = 0;
-    setTodos(todos);
+    getTasks();
   }
 
   function settingsNavigate() {
@@ -185,8 +178,9 @@ export default function Todo({ navigation }) {
       // const event = todos[index];
       // const min = (Date.parse(event.end) - Date.parse(event.start)) / 1000 / 60;
       // setTimeDone(min.toString());
+      
       setSelectedIndex(index);
-      scrollHandler(9*index);
+      //scrollHandler();
     }
   }
 
@@ -197,10 +191,11 @@ export default function Todo({ navigation }) {
     todos[selectedIndex].remaining_time = remaining_time;
   }
 
-  function scrollHandler(offset) {
+  function scrollHandler() {
+    //offset = 50-todoLocations[selectedIndex]
+    console.log(offset)
     scrollViewRef.current.scrollTo({
-      x: 50,
-      y: -offset,
+      y: 0,
       animated: true,
     });
   }
@@ -223,12 +218,21 @@ export default function Todo({ navigation }) {
     }
   }
 
+  function addTodoLocation(index, y) {
+    newArray = todoLocations;
+    newArray[index] = y;
+    console.log(newArray)
+    setTodoLocations(newArray)
+  }
+
   return (
     <SafeAreaView style={styles.dropDown}>
       <ScrollView style={styles.scroll} contentContainerStyle={{
      growflex: 1
-  }} ref = {scrollViewRef}
-        scrollEnabled={selectedIndex === -1}
+  }} 
+  ref = {scrollViewRef}
+        scrollEnabled={true}
+        
       >
         <View style={styles.row}>
           <Pressable onPress={() => completedNavigate()}>
@@ -242,9 +246,12 @@ export default function Todo({ navigation }) {
         <View style={styles.container}>
           {todos.map((todo, i) => (
             todo.remaining_time !== 0?
+            <View onLayout={({nativeEvent})=> {
+              addTodoLocation(i, nativeEvent.layout.y)}
+            } >
             <FadeInOut visible={getVisibleVal(i)}>
 
-            <Pressable onPress={() => todoPress(i, 9)}>
+            <Pressable onPress={() => {todoPress(i, 9)}}>
               <DropShadow style={[styles.shadow, styles.todoItem]}>
                 <Pressable onPress={() => {selectTodo(i, todo.task_id, todo.remaining_time)}} style={styles.todoPressWrapper}>
                   {
@@ -261,8 +268,12 @@ export default function Todo({ navigation }) {
               </DropShadow>
             </Pressable>
             </FadeInOut>
+            </View>
             : null
           ))}
+          <View style={[{height: 300}]}>
+
+          </View>
           {selectedIndex !== -1
             && (
               <Pressable
@@ -278,7 +289,7 @@ export default function Todo({ navigation }) {
             )}
           {selectedIndex !== -1
             && (
-              <View style={styles.absolute}>
+              <View style={[styles.absolute, {top: todoLocations[selectedIndex]}]}>
                 
               <Pressable onPress={() => todoPress(selectedIndex, 9)}>
                 <DropShadow style={[styles.shadow, styles.todoItemPopup]}>
