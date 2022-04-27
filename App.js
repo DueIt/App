@@ -32,7 +32,15 @@ const CalendarStack =  createMaterialTopTabNavigator();
 const TodoStack = createStackNavigator();
 const CompletedStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
+const daysOfWeek = calculateDaysOfWeekLeft();
 export const AuthContext = React.createContext();
+
+function calculateDaysOfWeekLeft(){
+  curDate = new Date;
+  curDay = curDate.getDay();
+  daysOfWeekTemplate = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return daysOfWeekTemplate.slice(curDay,curDay+7);
+}
 
 function CalendarNav() {
   return (
@@ -43,9 +51,9 @@ function CalendarNav() {
       animationEnabled: false,
       cardStyle: { backgroundColor: 'white' },
     }}>
-      <CalendarStack.Screen name="Today" component={Calendar} />
-      <CalendarStack.Screen name="Tomorrow" component={Settings} />
-      <CalendarStack.Screen name="Todo" component={Todo} />
+      {daysOfWeek.map((dayOfWeek) => (
+              <CalendarStack.Screen name={dayOfWeek} component={Calendar} initialParams={{day: dayOfWeek}}/>
+      ))}
     </CalendarStack.Navigator>
     </NavigationContainer>
   );
@@ -72,32 +80,13 @@ function TodoNav() {
 
 function CalendarTabBar() {
   return (
-    // <View style={styles.daysOfWeek}>
-    // <Pressable style={chosenDay == 'Today' ? styles.pressedButton : styles.notPressedButton}
-    //       onPress={() => setChosenDay('Today')} >
-    //       <Text>Today</Text>
-    //     </Pressable>
-    // <Pressable style={chosenDay == 'Tomorrow' ? styles.pressedButton : styles.notPressedButton}
-    //       onPress={() => setChosenDay('Tomorrow')} >
-    //       <Text>Tomorrow</Text>
-    //     </Pressable>
-    //   {daysOfWeek.map((dayOfWeek) => (
-    //     <Pressable style={chosenDay == dayOfWeek ? styles.pressedButton : styles.notPressedButton}
-    //       onPress={() => setChosenDay(dayOfWeek)} >
-    //       <Text>{dayOfWeek == "Sa" ? "S" : dayOfWeek}</Text>
-    //     </Pressable>
-    //   ))}
-    // </View>
   <View style={[styles.calendarTabBar]}>
-
           <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} color='white' />
-
           <Text style={styles.title}>{"Calendar"}</Text>
           <Pressable onPress={settingsNavigate}>
             <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
           </Pressable>
         </View> 
-        
   );
 }
 

@@ -9,7 +9,7 @@ import { styles } from '../styles/calendarStyle';
 import { GestureDetector, Swipeable } from 'react-native-gesture-handler';
 import { Settings2 } from 'react-native-web';
 
-export default function Calendar({ navigation }) {
+export default function Calendar({ route , navigation }) {
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getTasks();
@@ -23,14 +23,12 @@ export default function Calendar({ navigation }) {
   const [times, setTimes] = useState([]);
   const [events, setEvents] = useState([]);
   const [todos, setTodos] = useState([]);
-  const [curDate, setCurDate] = useState(new Date);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [timeDone, setTimeDone] = useState(0);
   const [ref, setRef] = useState(null);
   const topGap = 9;
   const hourSize = 100;
-  const daysOfWeek = ["S", "M", "T", "W", "R", "F", "Sa"];
-  const [chosenDay, setChosenDay] = useState(daysOfWeek[curDate.getDay()]);
+  const selectedDay = route.params.day;
   const LeftAction = () => {
     return CalendarDisplay()
   }
