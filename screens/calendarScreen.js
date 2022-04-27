@@ -18,7 +18,7 @@ export default function Calendar({ route , navigation }) {
     return unsubscribe;
   }, [navigation]);
 
-  const [hour, setHour] = useState(14/* new Date().getHours() */);
+  const [hour, setHour] = useState(6/* new Date().getHours() */);
   const [minute, setMinute] = useState(10/* new Date().getMinutes() */);
   const [times, setTimes] = useState([]);
   const [events, setEvents] = useState([]);
@@ -29,8 +29,86 @@ export default function Calendar({ route , navigation }) {
   const topGap = 9;
   const hourSize = 100;
   const selectedDay = route.params.day;
+  const numDaysAfterToday = route.params.daysAfter;
+  const [today, setToday] = useState(new Date());
+  const [todaysEvents, setTodaysEvents] = useState([]);
+  today.setDate(today.getDate()+numDaysAfterToday);
+  const [todaysTodos, setTodaysTodos] = useState([]);
   const LeftAction = () => {
     return CalendarDisplay()
+  }
+
+  useEffect(() => {
+    setTimes(createCalendar());
+
+    const testEvents = {
+      items: [
+        {
+          title: 'CS 4510',
+          start: '2022-04-27T22:30:00.000Z',
+          end: '2022-04-27T23:00:00.000Z',
+        },
+        {
+          title: 'CS 4261',
+          start: '2022-04-27T21:00:00.000Z',
+          end: '2022-04-27T21:45:00.000Z',
+        },
+        {
+          title: 'Your mom',
+          start: '2022-04-27T21:00:00.000Z',
+          end: '2022-04-27T21:45:00.000Z',
+        },
+        {
+          title: 'cool',
+          start: '2022-04-28T23:00:00.000Z',
+          end: '2022-04-28T23:45:00.000Z',
+        },
+        {
+          title: 'another day another duty',
+          start: '2022-04-28T08:00:00.000Z',
+          end: '2022-04-28T08:45:00.000Z',
+        },
+      ],
+    };
+    setEvents(testEvents.items);
+    setTodaysEvents(getEventsForToday());
+
+    const testTodos = {
+      items: [
+        {
+          title: 'Math Homework',
+          start: '2022-04-27T23:30:00.000Z',
+          end: '2022-04-27T24:00:00.000Z',
+        },
+      ],
+    };
+    setTodos(testTodos.items);
+    setTodaysTodos(getTodosForToday());
+  }, []);
+
+
+  // TODO: @Matt this need to return a list of events with title, start time and end time
+  // These events should come from ical and google Calendar, and only be the events for the specified day
+  function getEventsForToday() {
+    console.log(events)
+    console.log(events.filter(isToday))
+    return events.filter(isToday)
+  }
+
+  function getTodosForToday() {
+    return todos.filter(isToday)
+  }
+
+  function isToday(eventOrTodo){
+    eventOrTodoDate = new Date(eventOrTodo);
+    eventOrTodoDay = eventOrTodoDate.getDate();
+    eventOrTodoMonth = eventOrTodoDate.getMonth();
+    eventOrTodoYear = eventOrTodoDate.getFullYear();
+    todayDay = today.getDate();
+    todayMonth = today.getMonth();
+    todayYear = today.getFullYear();
+
+    return (eventOrTodoDay == todayDay && eventOrTodoMonth == todayMonth && eventOrTodoYear == todayYear)
   }
 
   function CalendarDisplay() {
@@ -42,7 +120,7 @@ export default function Calendar({ route , navigation }) {
             <View style={styles.timeLine} />
           </View>
         ))}
-        {events.map((event) => {
+        {todaysEvents.map((event) => {
           const eventDisplay = calcEventDisplay(event);
           return (
             <View
@@ -67,7 +145,7 @@ export default function Calendar({ route , navigation }) {
               />
             </Pressable>
           )}
-        {todos.map((todo, i) => {
+        {todaysTodos.map((todo, i) => {
           const todoDisplay = calcEventDisplay(todo);
           return (
             <Pressable
@@ -168,40 +246,10 @@ export default function Calendar({ route , navigation }) {
     getTasks();
   }, []);
 
-  useEffect(() => {
-    setTimes(createCalendar());
-
-    const testEvents = {
-      items: [
-        {
-          title: 'CS 4510',
-          start: '2022-02-25T22:30:00.000Z',
-          end: '2022-02-25T23:00:00.000Z',
-        },
-        {
-          title: 'CS 4261',
-          start: '2022-02-25T21:00:00.000Z',
-          end: '2022-02-25T21:45:00.000Z',
-        },
-      ],
-    };
-    setEvents(testEvents.items);
-
-    const testTodos = {
-      items: [
-        {
-          title: 'Math Homework',
-          start: '2022-02-25T23:30:00.000Z',
-          end: '2022-02-25T24:00:00.000Z',
-        },
-      ],
-    };
-    setTodos(testTodos.items);
-  }, []);
-
+  
   function calcEventDisplay(event) {
     const eventDate = Date.parse(event.start);
-    const eventHours = new Date(event.start).getHours() - (hour + (minute > 30 ? 0.5 : 0));
+    const eventHours = new Date(event.start).getHours() - (hour - 4 + (minute > 30 ? 0.5 : 0));
     const startOffset = topGap + eventHours * hourSize;
     const eventTime = (Date.parse(event.end) - eventDate) / 1000 / 60 / 60;
     const mins = parseInt(eventTime * 60 % 60);

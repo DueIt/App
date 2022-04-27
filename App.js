@@ -51,8 +51,8 @@ function CalendarNav() {
       animationEnabled: false,
       cardStyle: { backgroundColor: 'white' },
     }}>
-      {daysOfWeek.map((dayOfWeek) => (
-              <CalendarStack.Screen name={dayOfWeek} component={Calendar} initialParams={{day: dayOfWeek}}/>
+      {daysOfWeek.map((dayOfWeek, i) => (
+              <CalendarStack.Screen name={dayOfWeek} component={Calendar} initialParams={{day: dayOfWeek, daysAfter: i}}/>
       ))}
     </CalendarStack.Navigator>
     </NavigationContainer>
