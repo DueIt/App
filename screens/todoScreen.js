@@ -79,7 +79,7 @@ export default function Todo({ navigation }) {
       const response = await fetch(`${URL}/get-tasks`, obj);
       const json = await response.json();
       setTodos(json.tasks);
-      setTodoLength(todos.length+15);
+      setTodoLength(todos.length+50);
       setVisible(Array(todosLength).fill(true));
 
     } catch (error) {
@@ -164,6 +164,7 @@ export default function Todo({ navigation }) {
   }
 
   function remainingTimeZero(index){
+    todos[index].remaining_time = 0;
     getTasks();
   }
 
@@ -227,14 +228,8 @@ export default function Todo({ navigation }) {
 
   return (
     <SafeAreaView style={styles.dropDown}>
-      <ScrollView style={styles.scroll} contentContainerStyle={{
-     growflex: 1
-  }} 
-  ref = {scrollViewRef}
-        scrollEnabled={true}
-        
-      >
-        <View style={styles.row}>
+      
+        <View style={[styles.row, styles.shadow2]}>
           <Pressable onPress={() => completedNavigate()}>
             <FontAwesomeIcon icon={faCheckSquare} style={styles.settings} size={24} />
           </Pressable>
@@ -243,6 +238,15 @@ export default function Todo({ navigation }) {
             <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
           </Pressable>
         </View>
+        <ScrollView style={[styles.scroll]} contentContainerStyle={{
+     growflex: 1
+  }} 
+  ref = {scrollViewRef}
+        scrollEnabled={true}
+        
+      >
+        <View style={[{height: 10}]}>
+</View>
         <View style={styles.container}>
           {todos.map((todo, i) => (
             todo.remaining_time !== 0?
@@ -272,7 +276,6 @@ export default function Todo({ navigation }) {
             : null
           ))}
           <View style={[{height: 300}]}>
-
           </View>
           {selectedIndex !== -1
             && (

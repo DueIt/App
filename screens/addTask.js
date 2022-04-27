@@ -16,7 +16,7 @@ export default function AddTask({ navigation }) {
     const hours = ["0", "1", "2", "3", "4", "5"];
     const mins = Array.from(Array(60).keys()).map(String);
     const [date, setEndDate] = useState(new Date());
-    const [title, onChangeTitle] = React.useState("New Title");
+    const [title, onChangeTitle] = React.useState("New Item");
     const [location, onChangeLocation] = React.useState("");
     const [chunk, setChunking] = useState(false);
     const toggleChunking = () => setChunking(previousState => !previousState);

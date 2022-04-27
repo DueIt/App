@@ -6,11 +6,18 @@ import { Component } from 'react';
 import DropShadow from 'react-native-drop-shadow';
 import { BlurView } from '@react-native-community/blur';
 import { styles } from '../styles/calendarStyle';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { GestureDetector, Swipeable } from 'react-native-gesture-handler';
+import { Settings2 } from 'react-native-web';
 
 export default function Calendar({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getTasks();
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
   const [hour, setHour] = useState(14/* new Date().getHours() */);
   const [minute, setMinute] = useState(10/* new Date().getMinutes() */);
   const [times, setTimes] = useState([]);
@@ -30,15 +37,7 @@ export default function Calendar({ navigation }) {
 
   function CalendarDisplay() {
     return (<>
-      {/* {selectedIndex !== -1
-      && (
-        <BlurView
-          style={[styles.blur]}
-          blurType="light"
-          blurAmount={3}
-        />
-      )} */}
-      <View style={styles.container}>
+      <View style={[styles.container,{marginTop:10}]}>
         {times.map((time) => (
           <View style={styles.timeSlot}>
             <Text style={styles.timeText}>{time}</Text>
@@ -125,8 +124,6 @@ export default function Calendar({ navigation }) {
       </View></>)
   }
 
-
-
   function addTaskNavigate() {
     navigation.navigate("AddTask");
   }
@@ -172,9 +169,6 @@ export default function Calendar({ navigation }) {
   useEffect(() => {
     getTasks();
   }, []);
-
-
-
 
   useEffect(() => {
     setTimes(createCalendar());
@@ -231,7 +225,7 @@ export default function Calendar({ navigation }) {
     ref.scrollTo({
       x: 0,
       y: offset,
-      //animated: true,
+      animated: true,
     });
   }
 
@@ -257,45 +251,19 @@ export default function Calendar({ navigation }) {
     return { top: popupTop };
   }
 
-  function settingsNavigate() {
-    navigation.navigate("Settings");
-  }
-
   return (
     <SafeAreaView style={styles.scroll}>
-      <ScrollView
+    <ScrollView
         style={{ overflow: 'hidden' }}
         ref={(curRef) => {
           setRef(curRef);
         }}
         scrollEnabled={selectedIndex === -1}
       >
-        <View style={styles.row}>
-
-          <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} color='white' />
-
-          <Text style={styles.title}>{"Calendar"}</Text>
-          <Pressable onPress={settingsNavigate}>
-            <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
-          </Pressable>
-        </View>
-        <GestureDetector
-          onSwipeleft={() => setChosenDay('S')} onDragleft={() => setChosenDay('S')}>
           <View collapsable={false}>
-            <View style={styles.daysOfWeek}>
-              {daysOfWeek.map((dayOfWeek) => (
-                <Pressable style={chosenDay == dayOfWeek ? styles.pressedButton : styles.notPressedButton}
-                  onPress={() => setChosenDay(dayOfWeek)} >
-                  <Text>{dayOfWeek == "Sa" ? "S" : dayOfWeek}</Text>
-                </Pressable>
-
-              ))}
-            </View>
             <CalendarDisplay >
             </CalendarDisplay>
-
-          </View>
-        </GestureDetector>
+          </View>        
       </ScrollView>
     </SafeAreaView>
   );

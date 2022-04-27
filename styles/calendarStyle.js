@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    marginBottom: 30,
+    marginBottom: 10,
     marginTop: 20,
     fontSize: 24,
     fontWeight: '600',
@@ -33,7 +33,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginHorizontal: 30,
     marginTop: 10,
+    
   },
+
+  calendarTabBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-between",
+    backgroundColor: 'white',
+    paddingHorizontal: 45,
+    paddingTop: 55,
+    
+  },
+
+
   daysOfWeek: {
     flexDirection: 'row',
     alignItems: 'center',

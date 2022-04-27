@@ -2,13 +2,13 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scroll: {
-    overflow: 'visible',
+    overflow: 'hidden',
     height: '100%',
     //position: 'absolute'
     //flex: 1
   },
   dropDown: {
-    overflow: 'visible',
+    overflow: 'hidden',
     //flex: 1
   },
 
@@ -64,6 +64,19 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.07,
     shadowRadius: 5,
+  },
+
+  shadow2: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.07,
+    shadowRadius: 9,
+    //elevation: 1,
+    zIndex:999,
+    
   },
 
   todoItem: {
