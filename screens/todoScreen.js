@@ -49,7 +49,6 @@ export default function Todo({ navigation }) {
   const toggleVisible = (index) => {
     newState = Array(todosLength).fill(true);
     newState[index] = false;
-    console.log(newState)
     setVisible(newState)
   }
 
@@ -193,8 +192,6 @@ export default function Todo({ navigation }) {
   }
 
   function scrollHandler() {
-    //offset = 50-todoLocations[selectedIndex]
-    console.log(offset)
     scrollViewRef.current.scrollTo({
       y: 0,
       animated: true,
@@ -206,7 +203,7 @@ export default function Todo({ navigation }) {
   }
 
   function completedNavigate() {
-    navigation.navigate("Completed");
+    navigation.navigate("CompletedNav");
   }
 
   function getVisibleVal(i) {
@@ -222,7 +219,6 @@ export default function Todo({ navigation }) {
   function addTodoLocation(index, y) {
     newArray = todoLocations;
     newArray[index] = y;
-    console.log(newArray)
     setTodoLocations(newArray)
   }
 

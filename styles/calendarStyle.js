@@ -12,6 +12,24 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
+  title2: {
+    marginBottom: 10,
+    marginTop: 15,
+    marginHorizontal: 65,
+    fontSize: 24,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+
+  checkImage: {
+    //marginRight: 15,
+    marginLeft:0,
+    marginTop: 5,
+    color: '#39A4FF',
+  },
+  settings: {
+    marginTop: 5,
+  },
 
   pressedButton: {
     backgroundColor: '#39A4FF',
@@ -103,6 +121,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 63,
     position: 'absolute',
+  },
+
+  absolute: {
+    position: "absolute",
+    height: '100%',
+    width: '100%',
+    flexDirection: 'column',
+    //top: 0
   },
 
   eventTitle: {

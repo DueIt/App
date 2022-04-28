@@ -9,7 +9,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { styles } from './styles/calendarStyle';
 import {
-  faCalendarAlt, faList, faGear, faPlus,
+  faCalendarAlt, faList, faGear, faPlus, faCheckSquare
 } from '@fortawesome/free-solid-svg-icons';
 
 // import Preferences from '../screens/preferencesScreen';
@@ -30,24 +30,28 @@ const Tab = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const CalendarStack =  createMaterialTopTabNavigator();
 const TodoStack = createStackNavigator();
-const CompletedStack = createStackNavigator();
+const CompletedStack = createMaterialTopTabNavigator();
 const SettingsStack = createStackNavigator();
 const daysOfWeek = calculateDaysOfWeekLeft();
 export const AuthContext = React.createContext();
 
 function calculateDaysOfWeekLeft(){
   curDate = new Date;
-  curDay = curDate.getDay();
+  curDay = curDate.getUTCDay();
   daysOfWeekTemplate = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  return daysOfWeekTemplate.slice(curDay,curDay+7);
+  newDaysOfWeek = daysOfWeekTemplate.slice(curDay,curDay+7);
+  return newDaysOfWeek
 }
 
-function CalendarNav() {
+function CalendarNav({navigation}) {
   return (
-    <NavigationContainer style={[{margin:0}]} independent={true}>
-      <CalendarTabBar></CalendarTabBar>
+      <View style={[{margin:0,flex:1}]}>
+      <CalendarTabBar initialParams={{navigation: navigation}}
+      ></CalendarTabBar>
     <CalendarStack.Navigator screenOptions={{
-      initialRouteName:"Today",
+      initialRouteName:daysOfWeek[0],
+
+      initialParams:{day: daysOfWeek[0], daysAfter: 0},
       animationEnabled: false,
       cardStyle: { backgroundColor: 'white' },
     }}>
@@ -55,12 +59,8 @@ function CalendarNav() {
               <CalendarStack.Screen name={dayOfWeek} component={Calendar} initialParams={{day: dayOfWeek, daysAfter: i}}/>
       ))}
     </CalendarStack.Navigator>
-    </NavigationContainer>
+    </View>
   );
-}
-
-function settingsNavigate() {
-  navigation.navigate("Settings");
 }
 
 function TodoNav() {
@@ -73,17 +73,29 @@ function TodoNav() {
     >
       <TodoStack.Screen name="Todo" component={Todo} />
       <TodoStack.Screen name="Settings" component={Settings} />
-      <TodoStack.Screen name="Completed" component={Completed}/>
+      <TodoStack.Screen name="CompletedNav" component={CompletedNav}/>
     </TodoStack.Navigator>
   );
 }
 
-function CalendarTabBar() {
+function CalendarTabBar({navigation}) {
+  // function settingsNavigate(navigation) {
+  //   navigation.navigate("Settings");
+  // }
+
+  //TODO @Matt i tried for like two hours to get this navigation to work. its kinda tricky since its not a direct child of the og tab.navigator 
+  //otherwise, might have to put settings back on bottom so sorry :/
+
+
   return (
   <View style={[styles.calendarTabBar]}>
           <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} color='white' />
           <Text style={styles.title}>{"Calendar"}</Text>
-          <Pressable onPress={settingsNavigate}>
+          <Pressable onPress={
+            //settingsNavigate(navigation)
+            null
+          }
+          >
             <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
           </Pressable>
         </View> 
@@ -92,19 +104,41 @@ function CalendarTabBar() {
 
 function CompletedNav() {
   return (
+      <View style={[{flex:1}]}>
+        <CompletedTabBar></CompletedTabBar>
     <CompletedStack.Navigator screenOptions={{
       headerShown: false,
       animationEnabled: false,
       cardStyle: { backgroundColor: 'white' },
     }}
     >
-      <CompletedStack.Screen name="Completed" component={Completed} />
-      <CompletedStack.Screen name="Settings" component={Settings} />
-      <TodoStack.Screen name="Todo" component={Todo} />
+      <CompletedStack.Screen name="Week" component={Completed} />
+      <CompletedStack.Screen name="Month" component={Completed} />
+      <TodoStack.Screen name="Year" component={Completed} />
 
     </CompletedStack.Navigator>
+    </View>
   );
 }
+
+function todoNavigate() {
+  navigation.navigate("Todo");
+}
+function settingsNavigate(navigation) {
+  navigation.navigate("Settings");
+}
+
+function CompletedTabBar() {
+  return (<View style={styles.calendarTabBar}>
+                    <Pressable onPress={() => todoNavigate()}>
+                        <FontAwesomeIcon icon={faCheckSquare} style={styles.checkImage} size={24} />
+                    </Pressable>
+                    <Text style={styles.title2}>Completed</Text>
+                    <Pressable onPress={settingsNavigate}
+                    >
+                        <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
+                    </Pressable>
+                </View>)}
 
 function SettingsNav() {
   return (
@@ -215,7 +249,7 @@ function App() {
             >
               <Tab.Screen name="TodoNav" component={TodoNav} />
               <Tab.Screen name="AddTask" component={AddTask} />
-              <Tab.Screen name="CalendarNav" component={CalendarNav} />
+              <Tab.Screen name="CalendarNav" component={CalendarNav}/>
               {/* <Tab.Screen name="SettingsNav" component={SettingsNav} /> */}
             </Tab.Navigator>
           )}

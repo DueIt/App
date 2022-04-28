@@ -27,13 +27,6 @@ export default function Completed({ navigation }) {
     const [completeds, setcompleteds] = useState([]);
     const [selectedcompleteds, setSelectedcompleteds] = useState(new Set());
     const [error, setError] = useState('');
-    const [selectedIndex, setSelectedIndex] = useState(-1);
-    const [timeDone, setTimeDone] = useState("0");
-    const [ref, setRef] = useState(null);
-    const [timeframe, setTimeframe] = useState("Week");
-
-
-
     const { signOut } = React.useContext(AuthContext);
 
 
@@ -61,37 +54,6 @@ export default function Completed({ navigation }) {
         getTasks();
     }, []);
 
-    async function updateRemainingTime(task_id, time) {
-        const jwt = await SInfo.getItem('jwt', {
-            sharedPreferencesName: 'dueItPrefs',
-            keychainService: 'dueItAppKeychain',
-        });
-        var obj = {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Token': jwt
-            },
-            body: JSON.stringify(
-                {
-                    'remaining_time': time
-                }
-            )
-        }
-        fetch(`${URL}/update-time/${task_id}`, obj).then((res) => {
-            if (res.status === 401) {
-                setError('Invalid auth token.');
-            } else if (res.status === 500) {
-                setError('Sorry, there was a server error. Please try again.');
-            } else if (res.status !== 200) {
-                setError('Something went wrong.');
-            }
-        }).catch((curError) => {
-            console.log(`There was a problem connecting: ${curError.message}`);
-        });
-    }
-
     function dateFromString(date) {
         const fDate = new Date(date);
         return `${fDate.getMonth()}/${fDate.getDay()}`;
@@ -106,89 +68,17 @@ export default function Completed({ navigation }) {
         return `${time} m`;
     }
 
-    function selectcompleted(id, total_time) {
-        const newSet = new Set(selectedcompleteds);
-        if (newSet.has(id)) {
-            updateRemainingTime(id, total_time);
-            newSet.delete(id);
-            setSelectedcompleteds(newSet);
-        } else {
-            updateRemainingTime(id, 0);
-            newSet.add(id);
-            setSelectedcompleteds(newSet);
-        }
-    }
-
-    function settingsNavigate() {
-        navigation.navigate("Settings");
-    }
-
-    function completedPress(index, offset) {
-        if (selectedIndex === index) {
-            setSelectedIndex(-1);
-        } else {
-            // const event = completeds[index];
-            // const min = (Date.parse(event.end) - Date.parse(event.start)) / 1000 / 60;
-            // setTimeDone(min.toString());
-            setSelectedIndex(index);
-            scrollHandler(9);
-        }
-    }
-
-    function scrollHandler(offset) {
-        ref.scrollTo({
-            x: 0,
-            y: offset,
-            animated: true,
-        });
-    }
-
-    function todoNavigate() {
-        navigation.navigate("Todo");
-    }
-
     return (
-        <SafeAreaView style={styles.scroll}>
-            <ScrollView style={styles.scroll} ref={(ref) => {
-                setRef(ref);
-            }}
-                scrollEnabled={selectedIndex === -1}
-            >
-                <View style={styles.row}>
-                    <Pressable onPress={() => todoNavigate()}>
-                        <FontAwesomeIcon icon={faCheckSquare} style={styles.checkImage} size={24} />
-                    </Pressable>
-                    <Text style={styles.title}>Completed</Text>
-                    <Pressable onPress={settingsNavigate}>
-                        <FontAwesomeIcon icon={faGear} style={styles.settings} size={24} />
-                    </Pressable>
-                </View>
-                <View style={[styles.row, styles.container]}>
-                    <Pressable style={timeframe == "Week" ? styles.pressedButton : styles.notPressedButton}
-                        onPress={() => setTimeframe('Week')} >
-                        <Text style = {styles.weekTitle}>Week</Text>
-                    </Pressable>
-                    <Pressable style={timeframe == "Month" ? styles.pressedButton : styles.notPressedButton}
-                        onPress={() => setTimeframe('Month')}>
-                        <Text style = {styles.weekTitle}>Month</Text>
-                    </Pressable>
-                    <Pressable style={timeframe == "Year" ? styles.pressedButton : styles.notPressedButton}
-                        onPress={() => setTimeframe('Year')}>
-                        <Text style = {styles.weekTitle}>Year</Text>
-                    </Pressable>
-                </View>
-
+        <SafeAreaView style={[styles.scroll,{backgroundColor: 'white'}]}>
+            <ScrollView style={styles.scroll} >
+                <View style={[{height: 15}]}></View>
                 <View style={styles.container}>
                     {completeds.map((completed, i) => (
                         completed.remaining_time == 0 ?
-                            <Pressable onPress={() => completedPress(i, 9)}>
+                            <Pressable>
                                 <DropShadow style={[styles.shadow, styles.completedItem]}>
-                                    <Pressable onPress={() => selectcompleted(completed.task_id, completed.total_time)} style={styles.completedPressWrapper}>
-                                        {
-                                            //selectedcompleteds.has(completed.task_id)
-                                            //<FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={23} />
-                                            <View style={styles.checkedCircle} />
-                                        }
+                                    <Pressable>
+                                        {   <View style={styles.checkedCircle} />}
                                     </Pressable>
                                     <Text style={styles.completedItemTitle}>{completed.title}</Text>
                                     <View style={styles.completedInfoWrapper}>
