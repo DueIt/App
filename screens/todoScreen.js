@@ -63,11 +63,29 @@ export default function Todo({ navigation }) {
     setSelectedIndex(-1);
   }
 
-  const getTasks = async () => {
+  async function getJWT() {
     const jwt = await SInfo.getItem('jwt', {
       sharedPreferencesName: 'dueItPrefs',
       keychainService: 'dueItAppKeychain',
     });
+    return jwt;
+  }
+
+  function errorMessage(statusCode) {
+      if (statusCode === 401) {
+        setError('Invalid auth token.');
+        console.log(error);
+      } else if (statusCode === 500) {
+        setError('Sorry, there was a server error. Please try again.');
+        console.log(error);
+      } else if (statusCode !== 200) {
+        setError('Something went wrong.');
+        console.log(error);
+      }
+  }
+
+  const getTasks = async () => {
+    const jwt = await getJWT();
     var obj = {
       method: 'GET',
       headers: {
@@ -76,13 +94,13 @@ export default function Todo({ navigation }) {
     }
     try {
       const response = await fetch(`${URL}/get-tasks`, obj);
+      errorMessage(response.status);
       const json = await response.json();
       setTodos(json.tasks);
       setTodoLength(todos.length+50);
       setVisible(Array(todosLength).fill(true));
-
-    } catch (error) {
-      console.log(error);
+    } catch (curError) {
+      console.log(curError.message);
     }
   }
 
@@ -91,10 +109,7 @@ export default function Todo({ navigation }) {
   }, []);
 
   async function updateRemainingTime(task_id, time) {
-    const jwt = await SInfo.getItem('jwt', {
-      sharedPreferencesName: 'dueItPrefs',
-      keychainService: 'dueItAppKeychain',
-    });
+    const jwt = await getJWT();
     if (time < 0) {
       time = 0
     }
@@ -112,16 +127,33 @@ export default function Todo({ navigation }) {
       )
     }
     fetch(`${URL}/update-time/${task_id}`, obj).then((res) => {
-      if (res.status === 401) {
-        setError('Invalid auth token.');
-      } else if (res.status === 500) {
-        setError('Sorry, there was a server error. Please try again.');
-      } else if (res.status !== 200) {
-        setError('Something went wrong.');
-      }
+      errorMessage(res.status);
     }).catch((curError) => {
-      console.log(`There was a problem connecting: ${curError.message}`);
+      console.log(`There was a problem updating the time: ${curError.message}`);
     });
+  }
+
+  async function removeTask(taskID) {
+    const jwt = await getJWT();
+    var obj = {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Token': jwt
+      }
+    }
+    fetch(`${URL}/remove-tasks/${taskID}`, obj).then((res) => {
+      errorMessage(res.status);
+    }).catch((curError) => {
+      console.log(`There was a problem removing the task: ${curError.message}`);
+    });
+  }
+
+  function removeTaskPress(taskID) {
+    setTodos(todos => todos.filter((item,i) => i != selectedIndex));
+    setSelectedIndex(-1);
+    removeTask(taskID);
   }
 
   function addTaskNavigate() {
@@ -224,7 +256,6 @@ export default function Todo({ navigation }) {
 
   return (
     <SafeAreaView style={styles.dropDown}>
-      
         <View style={[styles.row, styles.shadow2]}>
           <Pressable onPress={() => completedNavigate()}>
             <FontAwesomeIcon icon={faCheckSquare} style={styles.settings} size={24} />
@@ -331,15 +362,13 @@ export default function Todo({ navigation }) {
                   </View>
                   <Text style={styles.timeMin}>min</Text>
                 </View>
-                <Pressable onPress={addTaskNavigate}>
+                <Pressable onPress={() => removeTaskPress(todos[selectedIndex].task_id)}>
                   <Text style={styles.exitButton}>Delete Item</Text>
                 </Pressable>
               </DropShadow>
-              </View>
-            
+              </View> 
             )}
-        </View>
-        
+        </View> 
       </ScrollView>
       <ConfettiCannon
         count={200}
