@@ -65,6 +65,7 @@ export default function Preferences({ navigation }) {
     if (hasGooglePermission) {
       const fetchData = async () => {
         const data = await getCalendars();
+        console.log(data);
         return data;
       };
       fetchData().then((calendars) => {
@@ -73,7 +74,7 @@ export default function Preferences({ navigation }) {
         });
       })
         .catch((curError) => {
-          console.log(`There has been a problem with login: ${curError.message}`);
+          console.log(`There has been a problem with calendar fetching: ${curError.message}`);
         });
     }
   }, [hasGooglePermission]);
@@ -243,16 +244,10 @@ export default function Preferences({ navigation }) {
             </View>
 
             <Text style={styles.title}>Calendars: </Text>
+
             {/* Calendars from iCal */}
             <View style={styles.calendarItemContainer}>
-              <Pressable>
-                {/* TODO: add other calendars like google and outlook */}
-                <View style={styles.calendarItemInner}>
-                  <Text style={styles.importText}>Import Calendar</Text>
-                  <FontAwesomeIcon icon={faPlus} style={styles.checkImage} size={24} />
-
-                </View>
-              </Pressable>
+              <Text style={styles.title}>Choose your Calendars: </Text>
               {availableCalendars.map((data, i, row) => {
                 if (i + 1 === row.length) {
                   return (
@@ -263,9 +258,9 @@ export default function Preferences({ navigation }) {
                     >
                       <View style={[styles.calendarItemInner, styles.calendarItemLast]}>
                         <Text style={styles.calendarItemText}>{data.title}</Text>
-                        {selectedCalendars.has(data.id)
+                        { selectedCalendars.has(data.id)
                           ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
-                          : <View style={styles.uncheckedCircle} />}
+                          : null}
                       </View>
                     </TouchableOpacity>
                   );
@@ -278,13 +273,54 @@ export default function Preferences({ navigation }) {
                   >
                     <View style={styles.calendarItemInner}>
                       <Text style={styles.calendarItemText}>{data.title}</Text>
-                      {selectedCalendars.has(data.id)
+                      { selectedCalendars.has(data.id)
                         ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
-                        : <View style={styles.uncheckedCircle} />}
+                        : null}
                     </View>
                   </TouchableOpacity>
                 );
               })}
+              <Text style={styles.title}>Google Calendars: </Text>
+              {/*  */}
+              {availableGoogleCalendars.map((data, i, row) => {
+                if (i + 1 === row.length) {
+                  return (
+                    <TouchableOpacity
+                      style={[styles.calendarItem]}
+                      onPress={() => setGoogleCalendar(data.cal_id)}
+                      key={data.cal_id}
+                    >
+                      <View style={[styles.calendarItemInner, styles.calendarItemLast]}>
+                        <Text style={styles.calendarItemText}>{data.summary}</Text>
+                        { selectedGoogleCalendars.has(data.cal_id)
+                          ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
+                          : null}
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
+                return (
+                  <TouchableOpacity
+                    style={[styles.calendarItem]}
+                    onPress={() => setGoogleCalendar(data.cal_id)}
+                    key={data.cal_id}
+                  >
+                    <View style={styles.calendarItemInner}>
+                      <Text style={styles.calendarItemText}>{data.summary}</Text>
+                      { selectedGoogleCalendars.has(data.cal_id)
+                        ? <FontAwesomeIcon icon={faCircleCheck} style={styles.checkImage} size={20} />
+                        : null}
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+              {/*  */}
+              <Pressable
+                style={() => [styles.doneButton, hasGooglePermission ? styles.hidden : null]}
+                onPress={() => setHasGooglePermission(true)}
+              >
+                <Text style={styles.doneButtonText}>Sign-in to Google Calendar</Text>
+              </Pressable>
             </View>
 
             <DropShadow
