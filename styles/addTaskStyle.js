@@ -37,6 +37,21 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 
+  doneButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  disabled: {
+    opacity: 0.5
+  },
+
+
+  pressed: {
+      opacity: 0.8
+  },
+
   title: {
     marginBottom: 30,
     marginTop: 10,
@@ -259,6 +274,25 @@ const styles = StyleSheet.create({
   },
   pickerItem: {
       height: 40,
+  },
+
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+  },
+
+  todoPopup: {
+    width: '70%',
+    backgroundColor: 'white',
+    position: 'absolute',
+    marginLeft: 63,
+    borderRadius: 15,
+    padding: 7,
   },
 }
 );

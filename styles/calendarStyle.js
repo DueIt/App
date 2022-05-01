@@ -2,15 +2,33 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   scroll: {
-    overflow: 'visible',
+    overflow: 'hidden',
   },
 
   title: {
-    marginBottom: 30,
+    marginBottom: 10,
     marginTop: 20,
     fontSize: 24,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  title2: {
+    marginBottom: 10,
+    marginTop: 15,
+    marginHorizontal: 65,
+    fontSize: 24,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+
+  checkImage: {
+    //marginRight: 15,
+    marginLeft:0,
+    marginTop: 5,
+    color: '#39A4FF',
+  },
+  settings: {
+    marginTop: 5,
   },
 
   pressedButton: {
@@ -33,7 +51,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginHorizontal: 30,
     marginTop: 10,
+    
   },
+
+  calendarTabBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-between",
+    backgroundColor: 'white',
+    paddingHorizontal: 45,
+    paddingTop: 55,
+    
+  },
+
+
   daysOfWeek: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -51,6 +82,14 @@ const styles = StyleSheet.create({
   timeSlot: {
     height: 50,
     flexDirection: 'row',
+  },
+
+  exitButton: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#FF0000',
+    textAlign: 'center',
+    padding: 7,
   },
 
   timeText: {
@@ -82,6 +121,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 63,
     position: 'absolute',
+  },
+
+  absolute: {
+    position: "absolute",
+    height: '100%',
+    width: '100%',
+    flexDirection: 'column',
+    //top: 0
   },
 
   eventTitle: {
@@ -185,7 +232,7 @@ const styles = StyleSheet.create({
 
   timeInputWrapper: {
     backgroundColor: '#F5F5F5',
-    paddingVertical: 5,
+    //paddingVertical: 5,
     marginHorizontal: 10,
     borderRadius: 10,
     width: 50,
@@ -193,6 +240,7 @@ const styles = StyleSheet.create({
 
   timeInput: {
     paddingHorizontal: 5,
+    paddingVertical: 5,
     textAlign: 'center',
     flex: 1,
     flexWrap: 'wrap',

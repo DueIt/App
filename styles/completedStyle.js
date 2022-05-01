@@ -3,17 +3,11 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   scroll: {
     overflow: 'hidden',
-    height: '100%',
-    //position: 'absolute'
-    //flex: 1
-  },
-  dropDown: {
-    overflow: 'hidden',
-    //flex: 1
   },
 
   container: {
     marginHorizontal: 25,
+    marginBottom: 15,
     position: 'relative',
   },
 
@@ -27,17 +21,11 @@ const styles = StyleSheet.create({
 
   },
 
-  spanBottom: {
-    width: '100%',
-    flexDirection: 'row'
-  },
-
   absolute: {
     position: "absolute",
     height: '100%',
     width: '100%',
-    flexDirection: 'column',
-    //top: 0
+    flexDirection: 'column'
   },
 
   pressed: {
@@ -66,20 +54,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
 
-  shadow2: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.07,
-    shadowRadius: 9,
-    //elevation: 1,
-    zIndex:999,
-    
-  },
-
-  todoItem: {
+  completedItem: {
     borderRadius: 20,
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -88,21 +63,28 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  todoItemTitle: {
+  completedItemTitle: {
     fontSize: 18,
     fontWeight: '500',
     flex: 1,
   },
 
-  todoInfoWrapper: {
+    weekTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    textAlign: 'center'
+    //flex: 1,
+  },
+
+  completedInfoWrapper: {
     flexDirection: 'column',
     alignItems: 'center',
   },
 
-  todoPressableWrapper: {
+  completedPressableWrapper: {
     flexDirection: 'row',
   },
-  todoItemPopup: {
+  completedItemPopup: {
     borderRadius: 20,
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -111,7 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
 
-  todoPopup: {
+  completedPopup: {
     width: '70%',
     backgroundColor: 'white',
     //position: 'absolute',
@@ -121,12 +103,12 @@ const styles = StyleSheet.create({
   },
 
 
-  todoTimeText: {
+  completedTimeText: {
     fontSize: 16,
     fontWeight: '500',
   },
 
-  todoDueText: {
+  completedDueText: {
     fontSize: 14,
     fontWeight: '400',
   },
@@ -207,7 +189,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
 
-  todoSubtitle: {
+  completedSubtitle: {
     color: 'white',
     marginLeft: 10,
   },
@@ -236,11 +218,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 7,
   },
-  fadingContainer: {
-    //paddingVertical: 5,
-    //paddingHorizontal: 25,
-    //backgroundColor: "lightseagreen"
+  pressedButton: {
+    backgroundColor: '#39A4FF',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 15,
   },
+
+  notPressedButton: {
+    //backgroundColor: 'white',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 15,
+  },
+
 });
 
 // eslint-disable-next-line import/prefer-default-export
