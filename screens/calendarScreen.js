@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component } from 'react';
 import {
   Text, View, TextInput, SafeAreaView, ScrollView, Pressable,
 } from 'react-native';
-import { Component } from 'react';
 import DropShadow from 'react-native-drop-shadow';
 import { BlurView } from '@react-native-community/blur';
 import { styles } from '../styles/calendarStyle';
@@ -250,8 +249,6 @@ export default function Calendar({ route , navigation }) {
     const popupTop = 3 + todoDisplay.startOffset + todoDisplay.eventHeight;
     return { top: popupTop };
   }
-
-  
 
   return (
     <SafeAreaView style={styles.scroll}>
