@@ -161,7 +161,10 @@ export default function InnerCalendar({ props }) {
 
   return (
     <ScrollView
-      style={{ overflow: 'hidden' }}
+      style={{
+        overflow: 'hidden',
+        backgroundColor: 'white',
+      }}
       ref={(curRef) => {
         setRef(curRef);
       }}

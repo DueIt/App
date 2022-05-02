@@ -12,14 +12,13 @@ const styles = StyleSheet.create({
 
   title: {
     marginBottom: 10,
-    marginTop: 20,
+    marginTop: 30,
     fontSize: 24,
     fontWeight: '600',
     textAlign: 'center',
   },
   title2: {
     marginBottom: 10,
-    marginTop: 15,
     marginHorizontal: 65,
     fontSize: 24,
     fontWeight: '600',
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
     color: '#39A4FF',
   },
   settings: {
-    marginTop: 5,
+    marginTop: 20,
   },
 
   pressedButton: {
@@ -65,8 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: 'white',
     paddingHorizontal: 45,
-    paddingTop: 55,
-
+    marginTop: 10,
   },
 
   daysOfWeek: {
