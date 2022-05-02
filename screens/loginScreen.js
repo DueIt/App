@@ -46,6 +46,7 @@ export default function Login({ navigation }) {
         } else if (res.status === 500) {
           setError('Sorry, there was a server error. Please try again.');
         } else if (res.status !== 200) {
+          console.log(res);
           setError('Something went wrong.');
         } else {
           res.json()
@@ -119,7 +120,7 @@ export default function Login({ navigation }) {
         >
           <Text style={styles.loginButtonText}>Sign In</Text>
         </Pressable>
-        {/* <Pressable 
+        {/* <Pressable
         style={({ pressed }) => [styles.loginButton,
           pressed ? styles.pressed : null]}
         onPress={() =>  {
@@ -185,9 +186,7 @@ export default function Login({ navigation }) {
                     GoogleSignin.getTokens().then((tokens) => {
                       console.log(JSON.stringify(tokens))
                     })
-                    
 
-                    
                     //.catch((e) => {
                     //console.log("ERROR IS: " + JSON.stringify(e));
                     //})

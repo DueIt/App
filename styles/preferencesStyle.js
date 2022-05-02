@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
 
   importText: {
     flex: 1,
-    //height: 20,
-    color: "#39A1FF",
-    fontWeight: "bold",
+    // height: 20,
+    color: '#39A1FF',
+    fontWeight: 'bold',
     fontSize: 18,
   },
 
@@ -38,19 +38,19 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'column',
-  marginTop: 10,
-  marginBottom: 0,
-},
+    marginTop: 10,
+    marginBottom: 0,
+  },
 
-newItemCard: {
-  borderRadius: 20,
-  backgroundColor: 'white',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: 18,
-  //marginBottom: 20,
-  marginTop: 30,
-},
+  newItemCard: {
+    borderRadius: 20,
+    backgroundColor: 'white',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 18,
+    // marginBottom: 20,
+    marginTop: 30,
+  },
 
   calendarItemInner: {
     paddingVertical: 17,
@@ -64,10 +64,10 @@ newItemCard: {
     borderBottomWidth: 0,
     paddingTop: 17,
     paddingBottom: 8,
-    //height: 110,
-    //marginHorizontal: 20,
+    // height: 110,
+    // marginHorizontal: 20,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   container: {
@@ -76,15 +76,13 @@ newItemCard: {
     marginHorizontal: 25,
   },
 
-
   setContainer: {
     width: '85%',
     alignItems: 'center',
     marginHorizontal: 25,
     paddingTop: 25,
-    
-  },
 
+  },
 
   doneButtonWrapper: {
     width: '85%',
@@ -154,7 +152,7 @@ newItemCard: {
     borderColor: '#39A4FF',
     borderWidth: 2,
     borderRadius: 20,
-   // marginRight: 15,
+    // marginRight: 15,
   },
 
   exitButton: {
@@ -165,21 +163,20 @@ newItemCard: {
     padding: 18,
   },
 
-
   layerContainer: {
     borderRadius: 20,
     backgroundColor: '#F5F5F5',
     flexDirection: 'row',
     alignItems: 'center',
-    //justifyContent: "space-between",
+    // justifyContent: "space-between",
     padding: 18,
     marginBottom: 20,
     width: '100%',
 
     position: 'relative',
     color: 'white',
-    height:100,
-    overflow: "hidden",
+    height: 100,
+    overflow: 'hidden',
   },
 
   layerContainer2: {
@@ -187,22 +184,22 @@ newItemCard: {
     backgroundColor: '#F5F5F5',
     flexDirection: 'row',
     alignItems: 'center',
-    //padding: 18,
+    // padding: 18,
     width: '100%',
     position: 'relative',
     color: 'white',
-    height:100,
-    overflow: "hidden",
+    height: 100,
+    overflow: 'hidden',
   },
 
   datePickerStyle: {
-    height:110,
+    height: 110,
 
     width: 150,
     transform: [
-        { scaleX: 0.9 }, 
-        { scaleY: 0.9 },
-     ],
+      { scaleX: 0.9 },
+      { scaleY: 0.9 },
+    ],
   },
 
   columnLayerContainer: {
@@ -210,15 +207,15 @@ newItemCard: {
     backgroundColor: '#F5F5F5',
     flexDirection: 'column',
     alignItems: 'center',
-    //justifyContent: "space-between",
-    //padding: 18,
+    // justifyContent: "space-between",
+    // padding: 18,
     marginBottom: 20,
     width: '100%',
 
     position: 'relative',
     color: 'white',
-    //height:100,
-    overflow: "hidden",
+    // height:100,
+    overflow: 'hidden',
   },
 });
 

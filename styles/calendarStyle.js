@@ -3,6 +3,11 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   scroll: {
     overflow: 'hidden',
+    backgroundColor: 'white',
+  },
+
+  body: {
+    flex: 1,
   },
 
   title: {
@@ -22,8 +27,8 @@ const styles = StyleSheet.create({
   },
 
   checkImage: {
-    //marginRight: 15,
-    marginLeft:0,
+    // marginRight: 15,
+    marginLeft: 0,
     marginTop: 5,
     color: '#39A4FF',
   },
@@ -39,7 +44,7 @@ const styles = StyleSheet.create({
   },
 
   notPressedButton: {
-    //backgroundColor: 'white',
+    // backgroundColor: 'white',
     alignItems: 'center',
     padding: 10,
     borderRadius: 15,
@@ -48,27 +53,26 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     marginHorizontal: 30,
     marginTop: 10,
-    
+
   },
 
   calendarTabBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     backgroundColor: 'white',
     paddingHorizontal: 45,
     paddingTop: 55,
-    
-  },
 
+  },
 
   daysOfWeek: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     marginHorizontal: 30,
     marginTop: 10,
     marginBottom: 20,
@@ -124,11 +128,11 @@ const styles = StyleSheet.create({
   },
 
   absolute: {
-    position: "absolute",
+    position: 'absolute',
     height: '100%',
     width: '100%',
     flexDirection: 'column',
-    //top: 0
+    // top: 0
   },
 
   eventTitle: {
@@ -232,7 +236,7 @@ const styles = StyleSheet.create({
 
   timeInputWrapper: {
     backgroundColor: '#F5F5F5',
-    //paddingVertical: 5,
+    // paddingVertical: 5,
     marginHorizontal: 10,
     borderRadius: 10,
     width: 50,

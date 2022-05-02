@@ -6123,6 +6123,14 @@
   dependencies:
     "object-assign" "^4.1.0"
 
+"react-canvas-confetti@^1.3.0":
+  "integrity" "sha512-5qBYTux3GKIu77SZ72oZYk4yvy1r4Z8q/BgIuO7mZrkqv/wH9vM7Yr/BzcqApGy9qZtIctF1Q41EYyw3aSDBmg=="
+  "resolved" "https://registry.npmjs.org/react-canvas-confetti/-/react-canvas-confetti-1.3.0.tgz"
+  "version" "1.3.0"
+  dependencies:
+    "@types/canvas-confetti" "1.4.2"
+    "canvas-confetti" "1.5.1"
+
 "react-devtools-core@^4.6.0":
   "integrity" "sha512-KkzneT1LczFtebbTJlvRphIRvzuHLhI9ghfrseVv9ktBs+l2cXy8Svw5U16lzQnwU9okVEcURmGPgH79WWrlaw=="
   "resolved" "https://registry.npmjs.org/react-devtools-core/-/react-devtools-core-4.23.0.tgz"
