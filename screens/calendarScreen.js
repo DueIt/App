@@ -26,10 +26,6 @@ import { URL } from '../setup';
 const CalendarSubStack = createMaterialTopTabNavigator();
 
 export default function Calendar({ route, navigation }) {
-  useEffect(() => {
-    getEvents();
-  }, []);
-
   function calculateDaysOfWeekLeft() {
     curDate = new Date();
     curDay = curDate.getUTCDay();
@@ -41,12 +37,20 @@ export default function Calendar({ route, navigation }) {
   const daysOfWeek = calculateDaysOfWeekLeft();
 
   const [events, setEvents] = useState([]);
-  const [todos, setTodos] = useState(['APE']);
+  const [todos, setTodos] = useState(['TEST']);
   const selectedDay = daysOfWeek[0];
   const numDaysAfterToday = 0;
   const [today, setToday] = useState(new Date());
   const chosenDay = addDays(today, numDaysAfterToday);
   const [selectedTodoDisplay, setSelectedTodoDisplay] = useState([]);
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
+  useEffect(() => {
+    console.log('updated');
+  }, [events]);
 
   const testEvents = {
     items: [
@@ -113,8 +117,7 @@ export default function Calendar({ route, navigation }) {
   };
 
   async function getEvents() {
-    setEvents(testEvents.items);
-    setTodos(testTodos.items);
+    getGoogleEvents();
   }
 
   // TODO: @Matt this needs to set two lists of events and todos with title, start time and end time
@@ -126,6 +129,49 @@ export default function Calendar({ route, navigation }) {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  }
+
+  async function getGoogleEvents() {
+    const jwt = await SInfo.getItem('jwt', {
+      sharedPreferencesName: 'dueItPrefs',
+      keychainService: 'dueItAppKeychain',
+    });
+
+    fetch(`${URL}/get-events`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Token: jwt,
+      },
+    }).then((res) => {
+      res.json().then(async (res) => {
+        const { AppleCalendarIDs } = res;
+
+        const now = new Date();
+        const curDate = now.toISOString();
+        now.setDate(now.getDate() + 7);
+        const weekDate = now.toISOString();
+
+        const calEvents = [];
+
+        await RNCalendarEvents.fetchAllEvents(curDate, weekDate, Array.from(AppleCalendarIDs))
+          .then(async (result) => {
+            result.forEach((element) => {
+              calEvents.push({
+                title: element.title,
+                start: element.startDate,
+                end: element.endDate,
+              });
+            });
+          });
+
+        const allEvents = calEvents.concat(res.GoogleEvents);
+        setEvents(allEvents);
+      }).catch((curError) => {
+        console.log(`There was a problem connecting: ${curError.message}`);
+      });
+    });
   }
 
   async function generateSchedule() {
@@ -163,7 +209,6 @@ export default function Calendar({ route, navigation }) {
           });
 
         // Generate the calendar here
-        console.log(calEvents);
         fetch(`${URL}/generate-schedule`, {
           method: 'POST',
           headers: {

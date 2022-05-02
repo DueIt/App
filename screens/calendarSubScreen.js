@@ -21,7 +21,7 @@ export default function InnerCalendar({ props }) {
 
   React.useEffect(() => {
     getEventsAndTodosForToday();
-  }, []);
+  }, [props.events, props.todos]);
 
   const [hour, setHour] = useState(6/* new Date().getHours() */);
   const [minute, setMinute] = useState(10/* new Date().getMinutes() */);
@@ -156,6 +156,8 @@ export default function InnerCalendar({ props }) {
     const popupTop = 3 + todoDisplay.startOffset + todoDisplay.eventHeight;
     return { top: popupTop };
   }
+
+  // TODO: change update for props from setting a state to being it's own thing for events and todos
 
   return (
     <ScrollView

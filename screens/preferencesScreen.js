@@ -108,6 +108,28 @@ export default function Preferences({ navigation }) {
         console.log(`There was a problem connecting: ${curError.message}`);
       });
     });
+
+    Array.from(selectedGoogleCalendars).forEach((element) => {
+      const obj = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Token: jwt,
+        },
+        body: JSON.stringify(
+          {
+            ref_id: element,
+            cal_type: 1,
+          },
+        ),
+      };
+      fetch(`${URL}/add-calendar`, obj).then((res) => {
+        console.log('Success', res.status);
+      }).catch((curError) => {
+        console.log(`There was a problem connecting: ${curError.message}`);
+      });
+    });
   }
 
   function setCalendar(id) {
