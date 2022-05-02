@@ -108,7 +108,27 @@ export default function InnerCalendar({ props }) {
 
   function calcEventDisplay(event) {
     const eventDate = Date.parse(event.start);
-    const eventHours = new Date(event.start).getHours() - (hour - 4 + (minute > 30 ? 0.5 : 0));
+    const eventHours = new Date(event.start).getHours() - (hour + (minute > 30 ? 0.5 : 0));
+    const startOffset = topGap + eventHours * hourSize;
+    const eventTime = (Date.parse(event.end) - eventDate) / 1000 / 60 / 60;
+    const mins = parseInt(eventTime * 60 % 60);
+    const hours = parseInt(eventTime);
+    let eventTimeString = `${mins} ${mins === 1 ? 'min' : 'mins'}`;
+    if (eventTime >= 1) {
+      eventTimeString = `${hours} ${hours === 1 ? 'hour' : 'hours'} ${mins} ${mins === 1 ? 'min' : 'mins'}`;
+    }
+    const eventHeight = hourSize * eventTime;
+
+    return {
+      eventHeight,
+      startOffset,
+      eventTimeString,
+    };
+  }
+
+  function calcTodoDisplay(event) {
+    const eventDate = Date.parse(event.start);
+    const eventHours = new Date(event.start).getHours() - (hour - 3 + (minute > 30 ? 0.5 : 0));
     const startOffset = topGap + eventHours * hourSize;
     const eventTime = (Date.parse(event.end) - eventDate) / 1000 / 60 / 60;
     const mins = parseInt(eventTime * 60 % 60);
@@ -192,7 +212,7 @@ export default function InnerCalendar({ props }) {
             );
           })}
           {todaysTodos.map((todo, i) => {
-            const todoDisplay = calcEventDisplay(todo);
+            const todoDisplay = calcTodoDisplay(todo);
             return (
               <Pressable
                 style={[{ height: todoDisplay.eventHeight, top: todoDisplay.startOffset },
