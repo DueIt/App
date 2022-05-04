@@ -23,14 +23,14 @@ export default function InnerCalendar({ props }) {
     getEventsAndTodosForToday();
   }, [props.events, props.todos]);
 
-  const [hour, setHour] = useState(6/* new Date().getHours() */);
-  const [minute, setMinute] = useState(10/* new Date().getMinutes() */);
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(0);
   const [times, setTimes] = useState(createCalendar());
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [timeDone, setTimeDone] = useState(0);
   const [ref, setRef] = useState(null);
   const chosenDay = props.day;
-  const topGap = 9;
+  const topGap = 10;
   const hourSize = 100;
   const [todaysEvents, setTodaysEvents] = useState([]);
   const [todaysTodos, setTodaysTodos] = useState([]);
@@ -108,7 +108,7 @@ export default function InnerCalendar({ props }) {
 
   function calcEventDisplay(event) {
     const eventDate = Date.parse(event.start);
-    const eventHours = new Date(event.start).getHours() - (hour + (minute > 30 ? 0.5 : 0));
+    const eventHours = new Date(event.start).getHours() + new Date(event.start).getMinutes() / 60;
     const startOffset = topGap + eventHours * hourSize;
     const eventTime = (Date.parse(event.end) - eventDate) / 1000 / 60 / 60;
     const mins = parseInt(eventTime * 60 % 60);
@@ -128,7 +128,7 @@ export default function InnerCalendar({ props }) {
 
   function calcTodoDisplay(event) {
     const eventDate = Date.parse(event.start);
-    const eventHours = new Date(event.start).getHours() - (hour - 3 + (minute > 30 ? 0.5 : 0));
+    const eventHours = new Date(event.start).getHours() + new Date(event.start).getMinutes() / 60;
     const startOffset = topGap + eventHours * hourSize;
     const eventTime = (Date.parse(event.end) - eventDate) / 1000 / 60 / 60;
     const mins = parseInt(eventTime * 60 % 60);
@@ -162,7 +162,7 @@ export default function InnerCalendar({ props }) {
       const min = (Date.parse(event.end) - Date.parse(event.start)) / 1000 / 60;
       setTimeDone(min.toString());
       setSelectedIndex(index);
-      setSelectedTodoDisplay(calcEventDisplay(event));
+      setSelectedTodoDisplay(calcTodoDisplay(event));
       scrollHandler(offset);
     }
   }
@@ -172,7 +172,7 @@ export default function InnerCalendar({ props }) {
   }
 
   function calcStyle() {
-    const todoDisplay = calcEventDisplay(todaysTodos[selectedIndex]);
+    const todoDisplay = calcTodoDisplay(todaysTodos[selectedIndex]);
     const popupTop = 3 + todoDisplay.startOffset + todoDisplay.eventHeight;
     return { top: popupTop };
   }
@@ -213,6 +213,7 @@ export default function InnerCalendar({ props }) {
           })}
           {todaysTodos.map((todo, i) => {
             const todoDisplay = calcTodoDisplay(todo);
+
             return (
               <Pressable
                 style={[{ height: todoDisplay.eventHeight, top: todoDisplay.startOffset },
